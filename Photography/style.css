@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+  padding-top: 200px;
+}
+
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  box-shadow: 0 0 10px gray;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0 2rem;
+  padding: 0;
+}
+
+.nav-logo {
+  list-style: none;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+.nav-listitems {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  list-style: none;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.flextext {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+  align-items: center; /* Vertically center text and image */
+  justify-content: space-between; /* Space out text and image */
+  gap: 2rem; /* Add spacing between text and image */
+  margin-bottom: 2rem; /* Space between each brand block */
+}
+
+.flex img {
+  border-radius: 8px;
+}
+
+.center {
+  text-align: center;
+}
+
+/* Computer */
+@media (min-width: 801px) {
+  .Personal { width: 33.3%; }
+  .Group { width: 50%; }
+}
+
+/* Tablet */
+@media (min-width: 541px) and (max-width: 800px) {
+  .Personal { width: 100%; }
+  .Group { width: 100%; }
+}
+
+/* Phone */
+@media (max-width: 500px) {
+  .QRCode { display: none; }
+}
