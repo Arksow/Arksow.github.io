@@ -10,13 +10,16 @@
   <!-- Navigation Bar -->
   <header>
     <div>
-      <nav class="nav">
-        <ul class="nav-list">
-          <li class="nav-logo" id="mainbtn"><img src="Images/Logo.png" alt=""></li>
+      <nav class="nav">    
+        <li class="nav-logo" id="mainbtn">  
+          <img src="Images/Logo.png" alt="Logo">
+        </li>
+        <ul class="nav-list" id="navMenu">
           <li class="nav-listitems" id="page1btn">Camera Types</li>
           <li class="nav-listitems" id="page2btn">Brands</li>
           <li class="nav-listitems" id="page3btn">Let's Play</li>
         </ul>
+        <div class="hamburger" id="hamburger">&#9776;</div>
       </nav>
     </div>
   </header>
@@ -39,7 +42,9 @@
             </figure>
         </div>
         <div class="center">
-          <img src="Images/QRCode.png" alt="MobileQR" class="QRCode">
+          <figure class="QRCode">
+            <img src="Images/QRCode.png" alt="MobileQR">
+          </figure>
        </div>
        </div>
       
@@ -146,31 +151,33 @@
             <p class="flextext">Fujifilm blends classic design with modern performance. Best known for its retro-inspired mirrorless cameras and distinctive
               color profiles, Fujifilm is the go-to brand for creatives seeking style, portability, and artistic image rendering.</p>
           </div>
-        </div>
-
-        <!-- Quiz -->
-         <div class="center">
-          <h1>Guess The Camera Types?</h1>
-          <p id="question">Which camera type is best for: <span id="category"></span>?</p>
-          <div class="options">
-            <button class="option">DSLR</button>
-            <button class="option">Mirrorless</button>
-            <button class="option">Action Camera</button>
-            <button class="option">Compact Camera</button>
-          </div>
-          <p id="nextbtn"></p>
-          <button id="next">Next</button>
-          <button id="tryAgain">Try Again</button>
-         </div>
-       </div>
+        </div> 
+      </div>
        
       <!-- Game -->
-       <div class="page" id="page3"></div>
-       <div>
-        <p><b></b></p>
-       </div>
-    </div>
-  </main>
+      <div class="page" id="page3">
+        <!-- Content -->
+        <div class="content">
+          <!-- Quiz -->
+          <div class="center"> 
+            <figure class="questionImage">     
+              <img id="questionImage" src="" alt="Camera Type Hint"> 
+            </figure>
+            <h1>Guess The Camera Types?</h1>
+            <p id="question">Which camera type is best for: <span id="category"></span>?</p>
+            <div class="options">
+              <button class="option">DSLR</button>
+              <button class="option">Mirrorless</button>
+              <button class="option">Action Camera</button>
+              <button class="option">Compact Camera</button>
+            </div>
+            <p id="nextbtn"></p>
+            <button id="next">Next</button>
+            <button id="tryAgain" style="display:none;">Try Again</button>  
+          </div>
+        </div>
+      </div>
+    </main>
 
   <footer>
     <p>2025 Alvin. All Rights Reserved.</p>

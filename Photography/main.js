@@ -39,12 +39,12 @@ show(0);
 // Quiz
 // Storing All Data
 const data = [
-  { category: "Wildlife", answer: "DSLR" },
-  { category: "Vlogging", answer: "Mirrorless" },
-  { category: "Underwater", answer: "Action Camera" },
-  { category: "Family Portraits", answer: "DSLR" },
-  { category: "Travel", answer: "Compact Camera" },
-  { category: "Sports", answer: "DSLR" }
+  { category: "Wildlife", answer: "DSLR", image: "Images/Wildlife.jpg" },
+  { category: "Vlogging", answer: "Mirrorless", image: "Images/Vlogging.jpg" },
+  { category: "Underwater", answer: "Action Camera", image: "Images/Underwater.jpg" },
+  { category: "Family Portraits", answer: "DSLR", image: "Images/Portrait.jpeg" },
+  { category: "Travel", answer: "Compact Camera", image: "Images/Travel.jpg" },
+  { category: "Sports", answer: "DSLR", image: "Images/Sport.jpg" }
 ];
 
 // Game state
@@ -57,12 +57,17 @@ const feedbackEl = document.getElementById("nextbtn");
 const buttons = document.querySelectorAll(".option");
 const nextBtn = document.getElementById("next");
 const tryAgainBtn = document.getElementById("tryAgain");
+const questionImg = document.getElementById("questionImage");
 
 // Load a new question
-function loadQuestion() {
+function loadQuestion() 
+{
   feedbackEl.textContent = "";
   const current = data[currentIndex];
   categoryEl.textContent = current.category;
+
+  questionImg.src = current.image;
+    questionImg.style.display = "block";
 
   buttons.forEach(button => {
     button.disabled = false;
@@ -71,7 +76,8 @@ function loadQuestion() {
 }
 
 // End the game
-function endGame() {
+function endGame() 
+{
   categoryEl.textContent = "Game Over!";
   document.querySelector(".options").style.display = "none";
   nextBtn.style.display = "none";
@@ -80,7 +86,8 @@ function endGame() {
 }
 
 // Reset the game
-function resetGame() {
+function resetGame() 
+{
   currentIndex = 0;
   score = 0;
   document.querySelector(".options").style.display = "block";
@@ -98,11 +105,12 @@ buttons.forEach(button => {
     buttons.forEach(btn => btn.disabled = true);
 
     if (selected === correct) {
-      feedbackEl.textContent = "✅ Correct!";
+      feedbackEl.textContent = "Correct!";
       feedbackEl.style.color = "green";
       score++;
-    } else {
-      feedbackEl.textContent = `❌ Wrong! The correct answer is ${correct}`;
+    }
+    else {
+      feedbackEl.textContent = `Wrong! The correct answer is ${correct}`;
       feedbackEl.style.color = "red";
     }
   });
@@ -127,3 +135,25 @@ window.onload = () => {
   tryAgainBtn.style.display = "none";
   loadQuestion();
 };
+
+const hamburger = document.getElementById("hamburger");
+const navMenu = document.getElementById("navMenu");
+
+hamburger.addEventListener("click", () => {
+  navMenu.classList.toggle("active");
+
+  // Toggle icon between ☰ and ✖
+  if (hamburger.innerHTML === "&#9776;") {
+    hamburger.innerHTML = "&#10005;"; // ✖
+  } else {
+    hamburger.innerHTML = "&#9776;"; // ☰
+  }
+});
+
+// Optional: Auto-close menu when a nav item is clicked (mobile)
+document.querySelectorAll(".nav-listitems").forEach(item => {
+  item.addEventListener("click", () => {
+    navMenu.classList.remove("active");
+    hamburger.innerHTML = "&#9776;";
+  });
+});

@@ -4,24 +4,32 @@ body {
 }
 
 .nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   position: fixed;
+  background-color: gray;
   top: 0;
   width: 100vw;
-  box-shadow: 0 0 10px gray;
+}
+
+.nav-logo {
+  list-style: none;
 }
 
 .nav-list {
   display: flex;
   align-items: center;
   gap: 2rem;
-  margin: 0 2rem;
-  padding: 0;
+  list-style: none;
+  padding: 0 3rem;
 }
 
-.nav-logo {
-  list-style: none;
-  margin-right: auto;
+.hamburger {
+  display: none;
+  font-size: 28px;
   cursor: pointer;
+  padding: 10px;
 }
 
 .nav-listitems {
@@ -51,19 +59,60 @@ body {
   text-align: center;
 }
 
-/* Computer */
-@media (min-width: 801px) {
-  .Personal { width: 33.3%; }
-  .Group { width: 50%; }
+.questionImage {
+  display: flex; 
+  justify-content: center;
+  margin: 0 auto;
 }
 
-/* Tablet */
-@media (min-width: 541px) and (max-width: 800px) {
-  .Personal { width: 100%; }
-  .Group { width: 100%; }
-}
-
-/* Phone */
-@media (max-width: 500px) {
+/* Phone (≤ 600px) */
+@media (max-width: 600px) {
   .QRCode { display: none; }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  .hamburger {
+    display: block;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    background-color: #fff;
+    width: 100%;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  }
+
+  .nav-list.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-listitems {
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+/* Tablet (601px – 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+
+}
+
+/* Desktop (≥ 1025px) */
+@media (min-width: 1025px) {
+
 }
