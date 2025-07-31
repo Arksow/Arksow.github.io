@@ -1,4 +1,6 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Assignment 2 - Photography</title>
@@ -13,7 +15,7 @@
           <li class="nav-logo" id="mainbtn"><img src="Images/Logo.png" alt=""></li>
           <li class="nav-listitems" id="page1btn">Camera Types</li>
           <li class="nav-listitems" id="page2btn">Brands</li>
-          <li class="nav-listitems" id="page3btn">Quiz</li>
+          <li class="nav-listitems" id="page3btn">Let's Play</li>
         </ul>
       </nav>
     </div>
@@ -23,8 +25,8 @@
       <!-- About -->
        <div class="page" id="page0">
         <!-- Header -->
-        <div class="flex">
-          <h2><b>History Of Photography</b></h2>
+        <div>
+          <h2 class="flextext"><b>History Of Photography</b></h2>
         </div>
 
         <!-- Description -->
@@ -32,23 +34,141 @@
           <span>The art and practice of creating images by recording light, has evolved from early chemical processes to the digital</span>
           <span>age we know today. The journey began with the camera obscura, a natural phenomenon used for centuries, and progressed</span>
           <span>through the invention of the daguerreotype and calotype processes, which paved the way for modern photography.</span>
-          <span></span>
             <figure>
-              <img src="Images/OldPhotography.jpg" alt="">
+              <img src="Images/OldPhotography.jpg" alt="OldPhotography">
             </figure>
         </div>
+        <div class="center">
+          <img src="Images/QRCode.png" alt="MobileQR" class="QRCode">
        </div>
+       </div>
+      
       <!-- Camera Types -->
       <div class="page" id="page1">
-        <span>Mirrorless Camera</span>
-        <span>DSLR Camera</span>
-        <span>Compact Camera</span>
-        <span>Action Camera</span>
+
+        <!-- Header (Mirrorless Camera) -->
+        <div class="center">
+          <h2><b>Mirrorless Camera</b></h2>
+        </div>
+        <!-- Description -->
+        <div class="flex">
+          <span class="flextext">A compact, lightweight camera without a mirror mechanism, offering fast autofocus and high-quality images. 
+            Ideal for both photography and video, often used by hobbyists and professionals alike.</span>
+          <figure>
+            <img src="Images/Mirrorless.jpg" alt="Mirrorless">
+          </figure>
+        </div>
+
+        <!-- Header (DSLR Camera) -->
+        <div class="center">
+          <h2><b>DSLR Camera</b></h2> 
+        </div>
+        <!-- Description -->
+        <div class="flex">         
+          <figure>
+            <img src="Images/DSLR.png" alt="DSLR">
+          </figure>
+          <span>A digital single-lens reflex camera with a mirror system that provides optical viewfinding. 
+            Known for excellent image quality, versatility, and compatibility with a wide range of lenses.</span> 
+        </div>
+
+        <!-- Header (Compact Camera) -->
+        <div class="center">
+          <h2><b>Compact Camera</b></h2>
+        </div>
+        <!-- Description -->
+        <div class="flex">
+          <span>Also known as point-and-shoot cameras, these are small, portable, and easy to use. 
+            Great for casual photography with automatic settings and built-in zoom lenses.</span>
+            <figure>
+              <img src="Images/Compact.jpg" alt="Compact">
+            </figure>
+        </div>
+
+        <!-- Header (Compact Camera) -->
+        <div class="center">
+          <h2><b>Action Camera</b></h2>
+        </div>
+        <!-- Description -->
+        <div class="flex">
+          <figure>
+            <img src="Images/Action.jpg" alt="Compact">
+          </figure>
+          <span>A rugged, waterproof camera built for capturing high-intensity activities. 
+            Small, durable, and typically used for sports, travel, and mounting on helmets or vehicles.</span>
+        </div>
       </div>
+
       <!-- Brands -->
-       <div class="page" id="page2"></div>
-      <!-- Quiz -->
+       <div class="page" id="page2">
+        <!-- Content -->
+        <div class="content">
+          <!-- Canon -->
+          <div class="flex">
+            <p class="flextext">Canon is celebrated for its reliable DSLR systems and high-performance lenses. Known for its user-friendly interface and 
+              vibrant color science, Canon continues to be a favorite among both professionals and enthusiasts.</p>
+              <div>
+                <figure>
+                  <img src="Images/Canon.jpg" alt="CanonImage">
+                </figure>
+              </div>
+          </div>
+
+          <!-- Sony -->
+          <div class="flex">    
+            <div>
+              <figure>
+                <img src="Images/Sony.jpg" alt="SonyImage">
+              </figure>
+            </div>
+            <p class="flextext">Sony leads the mirrorless revolution with its cutting-edge technology and compact, powerful cameras. Its Alpha series is 
+              particularly praised for exceptional autofocus, dynamic range, and video capabilities, making it a top choice for hybrid shooters.</p>
+          </div>
+
+          <!-- Nikon -->
+          <div class="flex">
+            <p class="flextext">Nikon boasts a rich heritage in optics and engineering excellence. Famed for its robust DSLRs and more recently, its 
+              Z-series mirrorless cameras, Nikon delivers exceptional image clarity and ergonomics tailored for serious photographers.</p>
+              <div>
+                <figure>
+                  <img src="Images/Nikon.jpg" alt="NikonImage">
+                </figure>
+              </div>
+          </div>
+
+          <!-- Fujifilm -->
+          <div class="flex">        
+            <div>
+              <figure>
+                <img src="Images/FujiFilm.jpg" alt="FujifilmImage">
+              </figure>
+            </div>
+            <p class="flextext">Fujifilm blends classic design with modern performance. Best known for its retro-inspired mirrorless cameras and distinctive
+              color profiles, Fujifilm is the go-to brand for creatives seeking style, portability, and artistic image rendering.</p>
+          </div>
+        </div>
+
+        <!-- Quiz -->
+         <div class="center">
+          <h1>Guess The Camera Types?</h1>
+          <p id="question">Which camera type is best for: <span id="category"></span>?</p>
+          <div class="options">
+            <button class="option">DSLR</button>
+            <button class="option">Mirrorless</button>
+            <button class="option">Action Camera</button>
+            <button class="option">Compact Camera</button>
+          </div>
+          <p id="nextbtn"></p>
+          <button id="next">Next</button>
+          <button id="tryAgain">Try Again</button>
+         </div>
+       </div>
+       
+      <!-- Game -->
        <div class="page" id="page3"></div>
+       <div>
+        <p><b></b></p>
+       </div>
     </div>
   </main>
 
@@ -56,6 +176,5 @@
     <p>2025 Alvin. All Rights Reserved.</p>
   </footer>
     <script src="main.js"></script>
-
 </body>
 </html>
