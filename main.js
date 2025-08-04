@@ -1,4 +1,3 @@
-//target all elements to save to constants
 const mainbtn = document.querySelector("#mainbtn");
 const page1btn = document.querySelector("#page1btn");
 const page2btn = document.querySelector("#page2btn");
@@ -17,8 +16,6 @@ hideall();
 let onepage=document.querySelector("#page"+pgno);
 onepage.style.display="block"; //show the page
 }
-/*Listen for clicks on the buttons, assign anonymous
-eventhandler functions to call show function*/
 mainbtn.addEventListener("click", function () {
   show(0);
 });
@@ -51,7 +48,6 @@ const data = [
 let currentIndex = 0;
 let score = 0;
 
-// DOM elements
 const categoryEl = document.getElementById("category");
 const feedbackEl = document.getElementById("nextbtn");
 const buttons = document.querySelectorAll(".option");
@@ -62,27 +58,26 @@ const questionImg = document.getElementById("questionImage");
 // Load a new question
 function loadQuestion() 
 {
-  feedbackEl.textContent = "";
-  const current = data[currentIndex];
-  categoryEl.textContent = current.category;
+  feedbackEl.textContent = ""; // Clear previous comment
+  const current = data[currentIndex]; // Get current question
+  categoryEl.textContent = current.category; // Show category
+  questionImg.src = current.image; // Show current image
+  questionImg.style.display = "block"; // Ensure it's visible
 
-  questionImg.src = current.image;
-    questionImg.style.display = "block";
-
+  // Enable and reset styles on all buttons
   buttons.forEach(button => {
     button.disabled = false;
     button.classList.remove("correct", "wrong");
   });
 }
-
 // End the game
 function endGame() 
 {
   categoryEl.textContent = "Game Over!";
-  document.querySelector(".options").style.display = "none";
+  document.querySelector(".options").style.display = "none"; // Hide buttons
   nextBtn.style.display = "none";
-  tryAgainBtn.style.display = "inline-block";
-  feedbackEl.innerHTML = `Thanks for playing!<br>Your score: ${score} / ${data.length}`;
+  tryAgainBtn.style.display = "inline-block"; // Show try again button
+  feedbackEl.textContent = `Thanks for playing!\nYour score: ${score} / ${data.length}`;
 }
 
 // Reset the game
@@ -90,7 +85,7 @@ function resetGame()
 {
   currentIndex = 0;
   score = 0;
-  document.querySelector(".options").style.display = "block";
+  document.querySelector(".options").style.display = "block"; // Show options
   nextBtn.style.display = "inline-block";
   tryAgainBtn.style.display = "none";
   loadQuestion();
@@ -102,7 +97,7 @@ buttons.forEach(button => {
     const selected = button.textContent;
     const correct = data[currentIndex].answer;
 
-    buttons.forEach(btn => btn.disabled = true);
+    buttons.forEach(btn => btn.disabled = true); // Disable buttons after selection
 
     if (selected === correct) {
       feedbackEl.textContent = "Correct!";
