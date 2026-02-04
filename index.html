@@ -1,0 +1,1663 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alvin - Game Programmer Portfolio</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Oxanium:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --neon-cyan: #0ff0fc;
+        --neon-purple: #bc13fe;
+        --neon-green: #00ff41;
+        --dark-bg: #0a0a0a;
+        --dark-gray: #1a1a1a;
+        --medium-gray: #2a2a2a;
+        --light-gray: #3a3a3a;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--dark-gray);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(
+          45deg,
+          var(--neon-cyan),
+          var(--neon-purple)
+        );
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(15, 240, 252, 0.5);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(
+          45deg,
+          var(--neon-purple),
+          var(--neon-cyan)
+        );
+        box-shadow: 0 0 10px rgba(15, 240, 252, 0.8);
+      }
+
+      /* Firefox Scrollbar */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--neon-cyan) var(--dark-gray);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: var(--dark-bg);
+        color: #fff;
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      .font-orbitron {
+        font-family: "Orbitron", sans-serif;
+      }
+
+      .font-oxanium {
+        font-family: "Oxanium", sans-serif;
+      }
+
+      .section-title {
+        position: relative;
+        display: inline-block;
+        margin-bottom: 3rem;
+        text-align: center;
+        width: 100%;
+      }
+
+      .section-title h2 {
+        text-align: center;
+        display: inline-block;
+      }
+
+      /* Shorter underline */
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30%; /* Reduced from 60% to 30% */
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--neon-cyan),
+          var(--neon-purple)
+        );
+        border-radius: 2px;
+      }
+
+      .neon-text-cyan {
+        text-shadow:
+          0 0 5px var(--neon-cyan),
+          0 0 10px rgba(15, 240, 252, 0.5),
+          0 0 15px rgba(15, 240, 252, 0.3);
+      }
+
+      .neon-text-purple {
+        text-shadow:
+          0 0 5px var(--neon-purple),
+          0 0 10px rgba(188, 19, 254, 0.5),
+          0 0 15px rgba(188, 19, 254, 0.3);
+      }
+
+      .neon-border-cyan {
+        box-shadow:
+          0 0 5px var(--neon-cyan),
+          0 0 10px rgba(15, 240, 252, 0.3),
+          inset 0 0 5px rgba(15, 240, 252, 0.1);
+      }
+
+      .neon-border-purple {
+        box-shadow:
+          0 0 5px var(--neon-purple),
+          0 0 10px rgba(188, 19, 254, 0.3),
+          inset 0 0 5px rgba(188, 19, 254, 0.1);
+      }
+
+      .glow-effect {
+        position: relative;
+      }
+
+      .glow-effect::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: inherit;
+        box-shadow: 0 0 20px 5px rgba(15, 240, 252, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
+
+      .glow-effect:hover::before {
+        opacity: 1;
+      }
+
+      .parallax-bg {
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .skill-bar {
+        height: 8px;
+        background-color: var(--medium-gray);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .skill-progress {
+        height: 100%;
+        border-radius: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--neon-cyan),
+          var(--neon-purple)
+        );
+        position: relative;
+        width: 0;
+        transition: width 1.5s ease-in-out;
+      }
+
+      .skill-progress::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.3) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        animation: shimmer 2s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      .particle {
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba(15, 240, 252, 0.1);
+        z-index: -1;
+      }
+
+      .grid-bg {
+        background-image:
+          linear-gradient(rgba(15, 240, 252, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(15, 240, 252, 0.05) 1px, transparent 1px);
+        background-size: 30px 30px;
+        background-position: center center;
+      }
+
+      .project-card {
+        background: linear-gradient(
+          145deg,
+          rgba(26, 26, 26, 0.9),
+          rgba(10, 10, 10, 0.9)
+        );
+        border: 1px solid rgba(58, 58, 58, 0.5);
+        transition: all 0.3s ease;
+        overflow: hidden;
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--neon-cyan);
+        box-shadow: 0 10px 25px rgba(15, 240, 252, 0.2);
+      }
+
+      .mobile-menu {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .mobile-menu.open {
+        transform: translateX(0);
+      }
+
+      /* Project Card Image Styles */
+      .project-card-image-container {
+        height: 256px;
+        overflow: hidden;
+        border-radius: 8px;
+        position: relative;
+        background-color: #111;
+      }
+
+      .project-card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: transform 0.5s ease;
+      }
+
+      .project-card:hover .project-card-image {
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 768px) {
+        .project-card-image-container {
+          height: 200px;
+        }
+      }
+
+      /* Timeline Styles */
+      .timeline {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .timeline::after {
+        content: "";
+        position: absolute;
+        width: 6px;
+        background: linear-gradient(
+          to bottom,
+          var(--neon-cyan),
+          var(--neon-purple)
+        );
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -3px;
+        border-radius: 3px;
+      }
+
+      .timeline-item {
+        padding: 10px 40px;
+        position: relative;
+        width: 50%;
+        box-sizing: border-box;
+      }
+
+      .timeline-item:nth-child(odd) {
+        left: 0;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 50%;
+      }
+
+      .timeline-item::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: var(--neon-cyan); /* FILLED with cyan */
+        border-radius: 50%;
+        top: 20px;
+        z-index: 1;
+        box-shadow: 0 0 10px rgba(15, 240, 252, 0.5); /* Optional glow */
+      }
+
+      .timeline-item:nth-child(odd)::after {
+        right: -10px;
+      }
+
+      .timeline-item:nth-child(even)::after {
+        left: -10px;
+      }
+
+      .timeline-content {
+        padding: 20px;
+        background: rgba(26, 26, 26, 0.8);
+        border-radius: 10px;
+        border: 1px solid rgba(58, 58, 58, 0.5);
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .timeline-content:hover {
+        border-color: var(--neon-cyan);
+        box-shadow: 0 5px 15px rgba(15, 240, 252, 0.1);
+      }
+
+      .timeline-date {
+        font-weight: bold;
+        color: var(--neon-cyan);
+        margin-bottom: 10px;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      @media (max-width: 768px) {
+        .timeline::after {
+          left: 31px;
+        }
+
+        .timeline-item {
+          width: 100%;
+          padding-left: 70px;
+          padding-right: 25px;
+        }
+
+        .timeline-item:nth-child(even) {
+          left: 0;
+        }
+
+        .timeline-item::after {
+          left: 21px !important;
+        }
+
+        .parallax-bg {
+          background-attachment: scroll;
+        }
+      }
+
+      /* Awards Grid */
+      .award-card {
+        background: linear-gradient(
+          145deg,
+          rgba(26, 26, 26, 0.7),
+          rgba(10, 10, 10, 0.7)
+        );
+        border: 1px solid rgba(58, 58, 58, 0.5);
+        border-left: 4px solid var(--neon-cyan);
+        transition: all 0.3s ease;
+      }
+
+      .award-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--neon-cyan);
+        box-shadow: 0 5px 15px rgba(15, 240, 252, 0.1);
+      }
+
+      /* Clickable Links */
+      .clickable {
+        cursor: pointer !important;
+        position: relative;
+      }
+
+      .clickable:hover {
+        color: var(--neon-cyan) !important;
+      }
+
+      /* Navigation Links */
+      .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--neon-cyan);
+        transition: width 0.3s ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* Footer Links */
+      .footer-link {
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .footer-link:hover {
+        transform: translateX(5px);
+        color: var(--neon-cyan) !important;
+      }
+
+      .social-icon {
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .social-icon:hover {
+        transform: translateY(-3px) scale(1.1);
+        color: var(--neon-cyan) !important;
+      }
+    </style>
+  </head>
+  <body class="relative">
+    <!-- Background Elements -->
+    <div
+      id="particles-container"
+      class="fixed top-0 left-0 w-full h-full z-0"
+    ></div>
+    <div class="fixed top-0 left-0 w-full h-full grid-bg z-0"></div>
+
+    <!-- Navigation -->
+    <nav
+      class="fixed top-0 w-full z-50 py-4 px-6 bg-black/80 backdrop-blur-sm border-b border-gray-800"
+    >
+      <div class="container mx-auto flex justify-between items-center">
+        <a
+          href="#home"
+          class="font-orbitron text-2xl font-bold neon-text-cyan clickable"
+          >ALVIN<span class="text-white"></span></a
+        >
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-8">
+          <a
+            href="#home"
+            class="font-oxanium text-lg hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Home</a
+          >
+          <a
+            href="#about"
+            class="font-oxanium text-lg hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >About</a
+          >
+          <a
+            href="#education"
+            class="font-oxanium text-lg hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Education</a
+          >
+          <a
+            href="#projects"
+            class="font-oxanium text-lg hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Projects</a
+          >
+          <a
+            href="#skills"
+            class="font-oxanium text-lg hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Skills</a
+          >
+          <a
+            href="#awards"
+            class="font-oxanium text-lg hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Awards</a
+          >
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-button"
+          class="md:hidden text-2xl text-white clickable"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="mobile-menu absolute top-full left-0 w-full bg-black/95 backdrop-blur-lg border-b border-gray-800 p-6 md:hidden"
+      >
+        <div class="flex flex-col space-y-6">
+          <a
+            href="#home"
+            class="font-oxanium text-xl hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Home</a
+          >
+          <a
+            href="#about"
+            class="font-oxanium text-xl hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >About</a
+          >
+          <a
+            href="#education"
+            class="font-oxanium text-xl hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Education</a
+          >
+          <a
+            href="#projects"
+            class="font-oxanium text-xl hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Projects</a
+          >
+          <a
+            href="#skills"
+            class="font-oxanium text-xl hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Skills</a
+          >
+          <a
+            href="#awards"
+            class="font-oxanium text-xl hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Awards</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      id="home"
+      class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
+    >
+      <div class="container mx-auto px-6 py-20 text-center">
+        <div class="fade-in">
+          <h1
+            class="font-orbitron text-5xl md:text-7xl font-bold mb-6 neon-text-cyan"
+          >
+            GAME PROGRAMMER <span class="text-white">&</span> DEVELOPER
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto">
+            Crafting immersive experiences through code, creativity, and
+            cutting-edge technology
+          </p>
+
+          <div class="flex flex-col md:flex-row justify-center gap-6 mt-12">
+            <a
+              href="#projects"
+              class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold rounded-lg glow-effect hover:scale-105 transition duration-300 font-oxanium text-lg clickable"
+            >
+              <i class="fas fa-gamepad mr-2"></i> View Projects
+            </a>
+            <a
+              href="#projects"
+              class="px-8 py-4 border-2 border-cyan-500 text-cyan-300 font-bold rounded-lg glow-effect hover:bg-cyan-500/10 hover:scale-105 transition duration-300 font-oxanium text-lg clickable"
+            >
+              <i class="fas fa-play-circle mr-2"></i> Watch Gameplay
+            </a>
+          </div>
+        </div>
+
+        <!-- Animated scrolling indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+          <a href="#about" class="animate-bounce block clickable">
+            <i class="fas fa-chevron-down text-3xl text-cyan-300"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 relative">
+      <div class="container mx-auto">
+        <div class="section-title">
+          <h2 class="font-orbitron text-4xl font-bold neon-text-purple">
+            About Me
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div class="fade-in">
+            <div class="bg-dark-gray p-8 rounded-xl neon-border-cyan">
+              <h3 class="font-orbitron text-2xl font-bold mb-6 text-cyan-300">
+                Hi! I'm Alvin
+              </h3>
+              <p class="text-gray-300 mb-4">
+                I'm a game programmer who is currently studying in
+                NYP. From young, games were a way to kill time as I was an only
+                child and no one to play with after school. I enjoy exploring
+                various genres and pushing my creative and technical boundaries.
+              </p>
+              <p class="text-gray-300 mb-4">
+                I'm always eager to learn, whether it's mastering game engines,
+                diving into programming problems, or tackling fun projects with
+                others. Here you can see some of the projects to which I had the
+                opportunity of contributing as a team member and some of my
+                individual projects.
+              </p>
+              <div class="mt-6">
+                <h4 class="font-oxanium text-xl font-bold text-white mb-3">
+                  Contact
+                </h4>
+                <a
+                  href="mailto:alvinchan8303@gmail.com"
+                  class="inline-flex items-center text-cyan-300 hover:text-cyan-200 clickable"
+                >
+                  <i class="fas fa-envelope mr-3"></i>
+                  <span>alvinchan8303@gmail.com</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in">
+            <div class="bg-dark-gray p-8 rounded-xl neon-border-purple">
+              <h3 class="font-orbitron text-2xl font-bold mb-6 text-purple-300">
+                Focus & Specializations
+              </h3>
+              <div class="mb-6">
+                <h4 class="font-oxanium text-xl font-bold text-white mb-2">
+                  Specializations
+                </h4>
+                <div class="flex flex-wrap gap-2 mt-3">
+                  <span
+                    class="px-3 py-1 bg-cyan-900/30 text-cyan-300 rounded-full text-sm border border-cyan-700/50"
+                    >Gameplay Programming</span
+                  >
+                  <span
+                    class="px-3 py-1 bg-purple-900/30 text-purple-300 rounded-full text-sm border border-purple-700/50"
+                    >AI Systems</span
+                  >
+                  <span
+                    class="px-3 py-1 bg-green-900/30 text-green-300 rounded-full text-sm border border-green-700/50"
+                    >Game Mechanics</span
+                  >
+                  <span
+                    class="px-3 py-1 bg-cyan-900/30 text-cyan-300 rounded-full text-sm border border-cyan-700/50"
+                    >Team Collaboration</span
+                  >
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-oxanium text-xl font-bold text-white mb-2">
+                  Current Focus
+                </h4>
+                <p class="text-gray-300">
+                  Building immersive gameplay systems, learning geometry and
+                  velocity for 3D models and movement, and contributing to
+                  team-based game development projects.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Timeline Section -->
+    <section id="education" class="py-20 px-6 bg-black/50">
+      <div class="container mx-auto">
+        <div class="section-title">
+          <h2 class="font-orbitron text-4xl font-bold neon-text-cyan">
+            Education
+          </h2>
+        </div>
+
+        <div class="timeline">
+          <!-- Current Education -->
+          <div class="timeline-item fade-in">
+            <div class="timeline-content">
+              <div class="timeline-date">2024 - Current</div>
+              <h3 class="font-orbitron text-xl font-bold text-white mb-2">
+                Diploma In Games Development & Technology
+              </h3>
+              <p class="text-gray-400 mb-2">Nanyang Polytechic</p>
+              <p class="text-gray-300">
+                I am learning geometry and velocity to create 3D models and
+                movement.
+              </p>
+            </div>
+          </div>
+
+          <!-- Higher Nitec -->
+          <div class="timeline-item fade-in">
+            <div class="timeline-content">
+              <div class="timeline-date">2022 - 2024</div>
+              <h3 class="font-orbitron text-xl font-bold text-white mb-2">
+                Higher Nitec in Games Programming and Development
+              </h3>
+              <p class="text-gray-400 mb-2">ITE College Central</p>
+              <p class="text-gray-300">
+                I learned how to use Unity, Gamemaker and Construct 3 while also
+                brushing up on my knowledge on using Visual Studio.
+              </p>
+            </div>
+          </div>
+
+          <!-- Nitec -->
+          <div class="timeline-item fade-in">
+            <div class="timeline-content">
+              <div class="timeline-date">2020 - 2022</div>
+              <h3 class="font-orbitron text-xl font-bold text-white mb-2">
+                Nitec In Infocomm Technology
+              </h3>
+              <p class="text-gray-400 mb-2">ITE College Central</p>
+              <p class="text-gray-300">
+                During my Nitec days, I learned programming languages like C#
+                and Java. I also learned how to use Microsoft Visual Studio and
+                Cisco Packet Tracer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 px-6 bg-black/50">
+      <div class="container mx-auto">
+        <div class="section-title">
+          <h2 class="font-orbitron text-4xl font-bold neon-text-cyan">
+            Personal Projects
+          </h2>
+        </div>
+        <p class="text-gray-400 mb-12 max-w-3xl mx-auto text-center">
+          A collection of games I've developed individually, showcasing
+          different genres, mechanics, and technical challenges.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+          <!-- NEW Project: Trash Collection Company -->
+          <div class="project-card fade-in rounded-xl p-6">
+            <div class="mb-4">
+              <div class="project-card-image-container">
+                <img
+                  src="https://raw.githubusercontent.com/Chathuwa-67/AlwinGamer/refs/heads/main/trash.png"
+                  alt="Trash Collection Company"
+                  class="project-card-image"
+                />
+              </div>
+            </div>
+            <h3 class="font-orbitron text-2xl font-bold mb-3 text-white">
+              Trash Collection Company (2026)
+            </h3>
+            <p class="text-gray-400 mb-4">
+              An endless runner inspired by Subway Surfers and Temple Run,
+              focusing on fast-paced gameplay, obstacle avoidance, and
+              score-based progression.
+            </p>
+
+            <div class="mb-4">
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Android</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Android Studio</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >JavaScript</span
+                >
+              </div>
+            </div>
+
+            <div class="flex space-x-4">
+              <a
+                href="https://arksow.itch.io/trash-collection-company"
+                target="_blank"
+                class="flex-1 py-2 bg-purple-700 hover:bg-purple-600 text-white rounded-lg transition duration-300 text-center clickable"
+              >
+                <i class="fas fa-external-link-alt mr-2"></i> Play Game
+              </a>
+            </div>
+          </div>
+
+          <!-- Project: The Last Shepherd -->
+          <div class="project-card fade-in rounded-xl p-6">
+            <div class="mb-4">
+              <div class="project-card-image-container">
+                <img
+                  src="https://raw.githubusercontent.com/Chathuwa-67/AlwinGamer/refs/heads/main/shep.png"
+                  alt="The Last Shepherd"
+                  class="project-card-image"
+                />
+              </div>
+            </div>
+            <h3 class="font-orbitron text-2xl font-bold mb-3 text-white">
+              The Last Shepherd <br />
+              (2026)
+            </h3>
+            <p class="text-gray-400 mb-4">
+              A simulation game where players observe AI-driven interactions
+              within a dynamic system, focusing on emergent behavior and
+              decision-making.
+            </p>
+
+            <div class="mb-4">
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >C++</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Visual Studio</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >AI</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Simulation</span
+                >
+              </div>
+            </div>
+
+            <div class="flex space-x-4">
+              <a
+                href="https://youtu.be/_JDrKljfFlU"
+                target="_blank"
+                class="flex-1 py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg transition duration-300 text-center clickable"
+              >
+                <i class="fas fa-play-circle mr-2"></i> Watch Demo
+              </a>
+            </div>
+          </div>
+
+          <!-- Project: Silent Voice -->
+          <div class="project-card fade-in rounded-xl p-6">
+            <div class="mb-4">
+              <div class="project-card-image-container">
+                <img
+                  src="https://raw.githubusercontent.com/Chathuwa-67/AlwinGamer/refs/heads/main/silent.png"
+                  alt="Silent Voice"
+                  class="project-card-image"
+                />
+              </div>
+            </div>
+            <h3 class="font-orbitron text-2xl font-bold mb-3 text-white">
+              Silent Voice <br />(2024)
+            </h3>
+            <p class="text-gray-400 mb-4">
+              A 2D platformer drawing heavy inspiration from Hollow Knight,
+              particularly in its atmosphere, environmental storytelling, and
+              world design.
+            </p>
+
+            <div class="mb-4">
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Construct 3</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >JavaScript</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >2D Platformer</span
+                >
+              </div>
+            </div>
+
+            <div class="flex flex-col space-y-6">
+              <a
+                href="https://youtu.be/C_wKLAJU12o"
+                target="_blank"
+                class="w-full py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg transition duration-300 text-center clickable"
+              >
+                <i class="fas fa-play-circle mr-2"></i> Watch Demo
+              </a>
+              <a
+                href="https://arksow.itch.io/silent-voice"
+                target="_blank"
+                class="w-full py-2 bg-purple-700 hover:bg-purple-600 text-white rounded-lg transition duration-300 text-center clickable"
+              >
+                <i class="fas fa-external-link-alt mr-2"></i> Play Game
+              </a>
+            </div>
+          </div>
+
+          <!-- Project: The Last Leap -->
+          <div class="project-card fade-in rounded-xl p-6">
+            <div class="mb-4">
+              <div class="project-card-image-container">
+                <img
+                  src="https://raw.githubusercontent.com/Chathuwa-67/AlwinGamer/refs/heads/main/leap.png"
+                  alt="The Last Leap"
+                  class="project-card-image"
+                />
+              </div>
+            </div>
+            <h3 class="font-orbitron text-2xl font-bold mb-3 text-white">
+              The Last Leap <br />(2023)
+            </h3>
+            <p class="text-gray-400 mb-4">
+              A precision-based 2D platformer focused on movement mechanics,
+              timing, and player control.
+            </p>
+
+            <div class="mb-4">
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Construct 3</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >JavaScript</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >2D Platformer</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Precision</span
+                >
+              </div>
+            </div>
+
+            <div class="flex flex-col space-y-6">
+              <a
+                href="https://youtu.be/rqrDaz4htpU"
+                target="_blank"
+                class="w-full py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg transition duration-300 text-center clickable"
+              >
+                <i class="fas fa-play-circle mr-2"></i> Watch Demo
+              </a>
+              <a
+                href="https://arksow.itch.io/2d-platformer"
+                target="_blank"
+                class="w-full py-2 bg-purple-700 hover:bg-purple-600 text-white rounded-lg transition duration-300 text-center clickable"
+              >
+                <i class="fas fa-external-link-alt mr-2"></i> Play Game
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">
+          <h2 class="font-orbitron text-4xl font-bold neon-text-purple">
+            Professional Projects
+          </h2>
+        </div>
+        <p class="text-gray-400 mb-12 max-w-3xl mx-auto text-center">
+          Collaborative projects developed in team environments, highlighting
+          professional development experience.
+        </p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!--  Project: Singacure (Professional) -->
+          <div class="project-card fade-in rounded-xl p-6">
+            <div class="mb-4">
+              <div class="project-card-image-container">
+                <img
+                  src="https://raw.githubusercontent.com/Chathuwa-67/AlwinGamer/refs/heads/main/sing.png"
+                  alt="Singacure"
+                  class="project-card-image"
+                />
+              </div>
+            </div>
+            <h3 class="font-orbitron text-2xl font-bold mb-3 text-white">
+              Singacure <br />(2025)
+            </h3>
+            <p class="text-gray-400 mb-4">
+              Singacure is a project I was part of as Game Programmer during my
+              WIU in my 2nd year in NYP. The project had 4 game programmers.
+            </p>
+
+            <div class="mb-4">
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Unity</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >C#</span
+                >
+
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >WIU</span
+                >
+              </div>
+            </div>
+
+            <div class="flex space-x-4 mt-6">
+              <a
+                href="https://youtu.be/rA1iNBZn-c8"
+                target="_blank"
+                class="flex-1 py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg transition duration-300 text-center clickable"
+              >
+                <i class="fas fa-play-circle mr-2"></i> Watch Demo
+              </a>
+            </div>
+            <div class="flex space-x-4 mt-6">
+              <a
+                href="https://arksow.itch.io/singacure"
+                target="_blank"
+                class="w-full py-2 bg-purple-700 hover:bg-purple-600 text-white rounded-lg transition duration-300 text-center clickable"
+              >
+                <i class="fas fa-external-link-alt mr-2"></i> Play Game
+              </a>
+            </div>
+
+            <div class="flex items-center mt-4">
+              <div class="mr-4">
+                <i class="fas fa-user-friends text-cyan-300 text-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-400">
+                  Role: <span class="text-cyan-300">Game Programmer</span>
+                </p>
+                <p class="text-sm text-gray-400">
+                  Team Size:
+                  <span class="text-cyan-300"
+                    >4 Programmers + Artists/Designers</span
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!--  Project: Unturned ( Version) -->
+          <div class="project-card fade-in rounded-xl p-6">
+            <div class="mb-4">
+              <div class="project-card-image-container">
+                <img
+                  src="https://raw.githubusercontent.com/Chathuwa-67/AlwinGamer/refs/heads/main/unturned.png"
+                  alt="Unturned"
+                  class="project-card-image"
+                />
+              </div>
+            </div>
+            <h3 class="font-orbitron text-2xl font-bold mb-3 text-white">
+              Unturned<br />
+              (2024)
+            </h3>
+            <p class="text-gray-400 mb-4">
+              Unturned is a project I was part of as Programmer and Game
+              Designer, during my 2nd year at ITE. The project had 4 people, 3
+              of which were game artists.
+            </p>
+
+            <div class="mb-4">
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Unity</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >C#</span
+                >
+                <span
+                  class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm"
+                  >Game Design</span
+                >
+              </div>
+            </div>
+
+            <div class="flex space-x-4 mt-6">
+              <a
+                href="https://www.youtube.com/watch?v=ya8fGziN7OA"
+                target="_blank"
+                class="flex-1 py-2 bg-cyan-700 hover:bg-cyan-600 text-white rounded-lg transition duration-300 text-center clickable"
+              >
+                <i class="fas fa-play-circle mr-2"></i> Watch Demo
+              </a>
+            </div>
+
+            <div class="flex items-center mt-4">
+              <div class="mr-4">
+                <i class="fas fa-user-tie text-purple-300 text-xl"></i>
+              </div>
+              <div>
+                <p class="text-sm text-gray-400">
+                  Role:
+                  <span class="text-purple-300"
+                    >Programmer & Game Designer</span
+                  >
+                </p>
+                <p class="text-sm text-gray-400">
+                  Team Size:
+                  <span class="text-purple-300">4 Members (3 Artists)</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 px-6 relative">
+      <div class="container mx-auto">
+        <div class="section-title">
+          <h2 class="font-orbitron text-4xl font-bold neon-text-cyan">
+            Skills & Technologies
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div class="fade-in">
+            <h3
+              class="font-orbitron text-2xl font-bold mb-8 text-white text-center"
+            >
+              Technical Proficiencies
+            </h3>
+
+            <div class="space-y-8">
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="font-oxanium text-lg text-gray-300">Unity</span>
+                  <span class="font-oxanium text-lg text-cyan-300">90%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="90"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="font-oxanium text-lg text-gray-300">C#</span>
+                  <span class="font-oxanium text-lg text-cyan-300">85%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="85"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="font-oxanium text-lg text-gray-300">C++</span>
+                  <span class="font-oxanium text-lg text-cyan-300">80%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="80"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="font-oxanium text-lg text-gray-300"
+                    >JavaScript</span
+                  >
+                  <span class="font-oxanium text-lg text-cyan-300">75%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-width="75"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in">
+            <h3
+              class="font-orbitron text-2xl font-bold mb-8 text-white text-center"
+            >
+              Game Development Skills
+            </h3>
+
+            <div class="grid grid-cols-2 gap-6">
+              <div
+                class="bg-dark-gray p-6 rounded-xl border border-gray-800 hover:border-cyan-500 transition duration-300"
+              >
+                <div class="text-cyan-300 text-3xl mb-4 text-center">
+                  <i class="fas fa-robot"></i>
+                </div>
+                <h4
+                  class="font-oxanium text-xl font-bold text-white mb-2 text-center"
+                >
+                  Game AI & Simulation
+                </h4>
+                <p class="text-gray-400 text-sm text-center">
+                  Creating intelligent behaviors, emergent systems, and dynamic
+                  simulations.
+                </p>
+              </div>
+
+              <div
+                class="bg-dark-gray p-6 rounded-xl border border-gray-800 hover:border-cyan-500 transition duration-300"
+              >
+                <div class="text-purple-300 text-3xl mb-4 text-center">
+                  <i class="fas fa-gamepad"></i>
+                </div>
+                <h4
+                  class="font-oxanium text-xl font-bold text-white mb-2 text-center"
+                >
+                  Gameplay Programming
+                </h4>
+                <p class="text-gray-400 text-sm text-center">
+                  Implementing core mechanics, controls, and interactive
+                  systems.
+                </p>
+              </div>
+
+              <div
+                class="bg-dark-gray p-6 rounded-xl border border-gray-800 hover:border-cyan-500 transition duration-300"
+              >
+                <div class="text-green-300 text-3xl mb-4 text-center">
+                  <i class="fas fa-users"></i>
+                </div>
+                <h4
+                  class="font-oxanium text-xl font-bold text-white mb-2 text-center"
+                >
+                  Team Collaboration
+                </h4>
+                <p class="text-gray-400 text-sm text-center">
+                  Working effectively in multidisciplinary development teams.
+                </p>
+              </div>
+
+              <div
+                class="bg-dark-gray p-6 rounded-xl border border-gray-800 hover:border-cyan-500 transition duration-300"
+              >
+                <div class="text-yellow-300 text-3xl mb-4 text-center">
+                  <i class="fas fa-tools"></i>
+                </div>
+                <h4
+                  class="font-oxanium text-xl font-bold text-white mb-2 text-center"
+                >
+                  Tools & Engines
+                </h4>
+                <p class="text-gray-400 text-sm text-center">
+                  Unity, Construct 3, Android Studio, Visual Studio, Git.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Awards Section -->
+    <section id="awards" class="py-20 px-6 bg-black/50">
+      <div class="container mx-auto">
+        <div class="section-title">
+          <h2 class="font-orbitron text-4xl font-bold neon-text-purple">
+            Achievements & Awards
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="fade-in">
+            <h3
+              class="font-orbitron text-2xl font-bold mb-6 text-cyan-300 text-center"
+            >
+              <i class="fas fa-trophy mr-2"></i>
+            </h3>
+            <div class="space-y-4">
+              <div class="award-card p-5 rounded-lg">
+                <h4 class="font-oxanium text-lg font-bold text-white mb-2">
+                  Java programming
+                </h4>
+              </div>
+              <div class="award-card p-5 rounded-lg">
+                <h4 class="font-oxanium text-lg font-bold text-white mb-2">
+                  Potato For Good Challenge, Singapore (ITE)
+                </h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="fade-in">
+            <h3
+              class="font-orbitron text-2xl font-bold mb-6 text-purple-300 text-center"
+            >
+              <i class="fas fa-medal mr-2"></i>
+            </h3>
+            <div class="space-y-4">
+              <div class="award-card p-5 rounded-lg">
+                <h4 class="font-oxanium text-lg font-bold text-white mb-2">
+                  Edusave Certificate of Academic Achievement, Singapore (MOE)
+                </h4>
+              </div>
+              <div class="award-card p-5 rounded-lg">
+                <h4 class="font-oxanium text-lg font-bold text-white mb-2">
+                  Overseas Institution Elective Certificate
+                </h4>
+              </div>
+              <div class="award-card p-5 rounded-lg">
+                <h4 class="font-oxanium text-lg font-bold text-white mb-2">
+                  Edusave Character Award
+                </h4>
+              </div>
+              <div class="award-card p-5 rounded-lg">
+                <h4 class="font-oxanium text-lg font-bold text-white mb-2">
+                  Edusave Award For Achievement, Good Leadership and Servce
+                  (Eagles)
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="py-12 px-6 bg-black border-t border-gray-800">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="font-orbitron text-2xl font-bold mb-6 neon-text-cyan">
+              Alvin
+            </h3>
+            <p class="text-gray-400 mb-6">
+              Game Programmer & Developer creating immersive interactive
+              experiences through code and creativity.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="https://github.com"
+                target="_blank"
+                class="text-gray-400 hover:text-cyan-300 text-xl transition duration-300 social-icon clickable"
+              >
+                <i class="fab fa-github"></i>
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                class="text-gray-400 hover:text-cyan-300 text-xl transition duration-300 social-icon clickable"
+              >
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a
+                href="https://arksow.itch.io"
+                target="_blank"
+                class="text-gray-400 hover:text-cyan-300 text-xl transition duration-300 social-icon clickable"
+              >
+                <i class="fab fa-itch-io"></i>
+              </a>
+              <a
+                href="https://www.youtube.com/@alvin6348/playlists"
+                target="_blank"
+                class="text-gray-400 hover:text-cyan-300 text-xl transition duration-300 social-icon clickable"
+              >
+                <i class="fab fa-youtube"></i>
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-oxanium text-xl font-bold text-white mb-6">
+              Quick Links
+            </h4>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#home"
+                  class="text-gray-400 hover:text-cyan-300 transition duration-300 footer-link clickable"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  class="text-gray-400 hover:text-cyan-300 transition duration-300 footer-link clickable"
+                  >About Me</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#education"
+                  class="text-gray-400 hover:text-cyan-300 transition duration-300 footer-link clickable"
+                  >Education</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#projects"
+                  class="text-gray-400 hover:text-cyan-300 transition duration-300 footer-link clickable"
+                  >Projects</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#skills"
+                  class="text-gray-400 hover:text-cyan-300 transition duration-300 footer-link clickable"
+                  >Skills</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#awards"
+                  class="text-gray-400 hover:text-cyan-300 transition duration-300 footer-link clickable"
+                  >Awards</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-oxanium text-xl font-bold text-white mb-6">
+              Get In Touch
+            </h4>
+            <p class="text-gray-400 mb-4">
+              Interested in collaborating on a game project or just want to talk
+              about game development?
+            </p>
+            <a
+              href="mailto:alvinchan8303@gmail.com"
+              class="inline-block px-6 py-3 bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold rounded-lg glow-effect hover:scale-105 transition duration-300 font-oxanium clickable"
+            >
+              <i class="fas fa-envelope mr-2"></i> Contact Me <br />
+              alvinchan8303@gmail.com
+            </a>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500"
+        >
+          <p>© 2026 Alvin - Game Programmer. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Initialize particles
+      function initParticles() {
+        const container = document.getElementById("particles-container");
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.classList.add("particle");
+
+          // Random size and position
+          const size = Math.random() * 3 + 1;
+          particle.style.width = `${size}px`;
+          particle.style.height = `${size}px`;
+          particle.style.left = `${Math.random() * 100}vw`;
+          particle.style.top = `${Math.random() * 100}vh`;
+
+          // Random color (cyan, purple, or green with low opacity)
+          const colors = [
+            "rgba(15, 240, 252, 0.1)",
+            "rgba(188, 19, 254, 0.1)",
+            "rgba(0, 255, 65, 0.1)",
+          ];
+          particle.style.backgroundColor =
+            colors[Math.floor(Math.random() * colors.length)];
+
+          container.appendChild(particle);
+
+          // Animate particle
+          animateParticle(particle);
+        }
+      }
+
+      // Animate individual particle
+      function animateParticle(particle) {
+        let x = parseFloat(particle.style.left);
+        let y = parseFloat(particle.style.top);
+        let xSpeed = (Math.random() - 0.5) * 0.3;
+        let ySpeed = (Math.random() - 0.5) * 0.3;
+
+        function move() {
+          x += xSpeed;
+          y += ySpeed;
+
+          // Wrap around edges
+          if (x > 100) x = 0;
+          if (x < 0) x = 100;
+          if (y > 100) y = 0;
+          if (y < 0) y = 100;
+
+          particle.style.left = `${x}vw`;
+          particle.style.top = `${y}vh`;
+
+          requestAnimationFrame(move);
+        }
+
+        move();
+      }
+
+      // Fade-in animation on scroll
+      function initScrollAnimations() {
+        const fadeElements = document.querySelectorAll(".fade-in");
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+
+                // Animate skill bars
+                if (
+                  entry.target.id === "skills" ||
+                  entry.target.closest("#skills")
+                ) {
+                  setTimeout(() => {
+                    document
+                      .querySelectorAll(".skill-progress")
+                      .forEach((bar) => {
+                        const width = bar.getAttribute("data-width");
+                        bar.style.width = `${width}%`;
+                      });
+                  }, 300);
+                }
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px",
+          },
+        );
+
+        fadeElements.forEach((el) => observer.observe(el));
+      }
+
+      // Mobile menu functionality
+      function initMobileMenu() {
+        const menuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+
+        menuButton.addEventListener("click", () => {
+          mobileMenu.classList.toggle("open");
+        });
+
+        // Close menu when clicking a link
+        mobileMenu.querySelectorAll("a").forEach((link) => {
+          link.addEventListener("click", () => {
+            mobileMenu.classList.remove("open");
+          });
+        });
+      }
+
+      // Fix ALL navigation links - make them work properly
+      function fixAllNavigationLinks() {
+        // Fix ALL navigation links (header, footer, all clickable elements)
+        const allNavLinks = document.querySelectorAll(".clickable");
+
+        allNavLinks.forEach((link) => {
+          // Make sure cursor pointer is applied
+          link.style.cursor = "pointer";
+
+          // Check if it's an internal link
+          if (
+            link.getAttribute("href") &&
+            link.getAttribute("href").startsWith("#") &&
+            !link.hasAttribute("target")
+          ) {
+            link.addEventListener("click", function (e) {
+              e.preventDefault();
+              const targetId = this.getAttribute("href");
+
+              // Special handling for home link
+              if (targetId === "#home") {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+                return;
+              }
+
+              const targetElement = document.querySelector(targetId);
+              if (targetElement) {
+                window.scrollTo({
+                  top: targetElement.offsetTop - 80,
+                  behavior: "smooth",
+                });
+
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById("mobile-menu");
+                mobileMenu.classList.remove("open");
+              }
+            });
+          }
+
+          // Add visual feedback on click
+          link.addEventListener("mousedown", function () {
+            this.style.transform = "scale(0.95)";
+          });
+
+          link.addEventListener("mouseup", function () {
+            this.style.transform = "";
+          });
+
+          link.addEventListener("mouseleave", function () {
+            this.style.transform = "";
+          });
+        });
+      }
+
+      // Initialize everything when DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        initParticles();
+        initScrollAnimations();
+        initMobileMenu();
+        fixAllNavigationLinks();
+
+        // Trigger initial fade-in for elements in view
+        setTimeout(() => {
+          document.querySelectorAll(".fade-in").forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) {
+              el.classList.add("visible");
+            }
+          });
+        }, 500);
+      });
+    </script>
+  </body>
+</html>
