@@ -136,6 +136,47 @@
         white-space: nowrap;
       }
 
+      .hero-video-background {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        background: #05070f;
+      }
+
+      .hero-video-background::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          90deg,
+          rgba(5, 7, 15, 0.9),
+          rgba(5, 7, 15, 0.55),
+          rgba(5, 7, 15, 0.9)
+        );
+      }
+
+      #hero-video-player,
+      #hero-video-player iframe {
+        width: 100%;
+        height: 100%;
+      }
+
+      #hero-video-player iframe {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100vw;
+        min-width: 177.78vh;
+        height: 56.25vw;
+        min-height: 100%;
+        transform: translate(-50%, -50%);
+        border: 0;
+        filter: saturate(0.85) contrast(1.08);
+        pointer-events: none;
+      }
+
       .neon-border-cyan {
         box-shadow:
           0 0 5px var(--neon-cyan),
@@ -270,6 +311,27 @@
         box-shadow: 0 10px 25px rgba(15, 240, 252, 0.2);
       }
 
+      .project-card {
+        cursor: pointer;
+      }
+
+      .project-card:focus-visible {
+        outline: 2px solid var(--neon-cyan);
+        outline-offset: 4px;
+      }
+
+      #projects .project-card > h3 + p {
+        display: none;
+      }
+
+      #projects .project-card a {
+        display: none;
+      }
+
+      #projects .project-card > .flex.items-center.mt-4 {
+        display: none;
+      }
+
       .mobile-menu {
         transform: translateX(-100%);
         transition: transform 0.3s ease;
@@ -292,11 +354,123 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
-        transition: transform 0.5s ease;
+        transition: filter 0.35s ease;
+        will-change: transform;
       }
 
-      .project-card:hover .project-card-image {
-        transform: scale(1.05);
+      .project-card-image-container:hover .project-card-image {
+        animation: project-image-hover 1.8s ease-in-out infinite alternate;
+        filter: brightness(1.1) saturate(1.12);
+      }
+
+      @keyframes project-image-hover {
+        from {
+          transform: scale(1.04) translateY(0);
+        }
+
+        to {
+          transform: scale(1.1) translateY(-6px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .project-card-image-container:hover .project-card-image {
+          animation: none;
+          transform: scale(1.04);
+        }
+      }
+
+      .project-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: min(92vw, 720px);
+        max-height: 90vh;
+        margin: 0;
+        overflow-y: auto;
+        padding: 0;
+        color: #fff;
+        background: var(--dark-gray);
+        border: 1px solid rgba(15, 240, 252, 0.65);
+        border-radius: 16px;
+        box-shadow: 0 0 30px rgba(15, 240, 252, 0.2);
+        transform: translate(-50%, -50%);
+      }
+
+      .project-modal::backdrop {
+        background: rgba(0, 0, 0, 0.78);
+        backdrop-filter: blur(5px);
+      }
+
+      .project-modal-content {
+        position: relative;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      .project-modal-close {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.65);
+        border: 1px solid rgba(15, 240, 252, 0.6);
+        border-radius: 999px;
+        transition: background 0.2s ease;
+      }
+
+      .project-modal-close:hover,
+      .project-modal-close:focus-visible {
+        background: rgba(15, 240, 252, 0.2);
+      }
+
+      .project-modal-media {
+        width: 100%;
+        max-height: 320px;
+        margin-bottom: 1.5rem;
+        background: #111;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .project-modal-media img,
+      .project-modal-media iframe {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        max-height: 320px;
+        border: 0;
+        object-fit: contain;
+      }
+
+      .project-modal-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .project-modal-actions a {
+        flex: 1 1 180px;
+      }
+
+      .project-modal-meta {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem 1.5rem;
+        margin-top: 1.25rem;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(58, 58, 58, 0.7);
+        border-radius: 8px;
+      }
+
+      .project-modal-meta p {
+        margin: 0;
       }
 
       @media (max-width: 768px) {
@@ -518,6 +692,11 @@
             >Education</a
           >
           <a
+            href="#work"
+            class="font-oxanium text-lg hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Work</a
+          >
+          <a
             href="#projects"
             class="font-oxanium text-lg hover:text-cyan-300 transition duration-300 nav-link clickable"
             >Projects</a
@@ -565,6 +744,11 @@
             >Education</a
           >
           <a
+            href="#work"
+            class="font-oxanium text-xl hover:text-cyan-300 transition duration-300 nav-link clickable"
+            >Work</a
+          >
+          <a
             href="#projects"
             class="font-oxanium text-xl hover:text-cyan-300 transition duration-300 nav-link clickable"
             >Projects</a
@@ -588,12 +772,16 @@
       id="home"
       class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
     >
-      <div class="container mx-auto px-6 py-20 text-center">
+      <div id="hero-video-background" class="hero-video-background" aria-hidden="true">
+        <div id="hero-video-player"></div>
+      </div>
+
+      <div class="container mx-auto px-6 py-20 text-center relative z-10">
         <div class="fade-in">
           <h1
             class="hero-title font-orbitron font-bold mb-6 neon-text-cyan"
           >
-            GAME PROGRAMMER <span class="text-white">&</span> DEVELOPER
+            GAMES <span class="text-white">&</span> WEB DEVELOPER
           </h1>
           <div class="flex flex-col md:flex-row justify-center gap-6 mt-12">
             <a
@@ -610,13 +798,13 @@
             </a>
           </div>
         </div>
+      </div>
 
-        <!-- Animated scrolling indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-          <a href="#about" class="animate-bounce block clickable">
-            <i class="fas fa-chevron-down text-3xl text-cyan-300"></i>
-          </a>
-        </div>
+      <!-- Animated scrolling indicator -->
+      <div class="absolute bottom-10 left-1/2 z-10 transform -translate-x-1/2">
+        <a href="#about" class="animate-bounce block clickable">
+          <i class="fas fa-chevron-down text-3xl text-cyan-300"></i>
+        </a>
       </div>
     </section>
 
@@ -725,9 +913,6 @@
                 Diploma In Games Development & Technology
               </h3>
               <p class="text-gray-400 mb-2">Nanyang Polytechnic</p>
-              <p class="text-gray-300">
-                I am learning to use Unity & Unreal Engine to create games.
-              </p>
             </div>
           </div>
 
@@ -739,10 +924,6 @@
                 Higher Nitec in Games Programming and Development
               </h3>
               <p class="text-gray-400 mb-2">ITE College Central</p>
-              <p class="text-gray-300">
-                I learned how to use Unity, Gamemaker and Construct 3 while also
-                brushing up on my knowledge on using Visual Studio.
-              </p>
             </div>
           </div>
 
@@ -754,13 +935,19 @@
                 Nitec In Infocomm Technology
               </h3>
               <p class="text-gray-400 mb-2">ITE College Central</p>
-              <p class="text-gray-300">
-                During my Nitec days, I learned programming languages like C#
-                and Java. I also learned how to use Microsoft Visual Studio and
-                Cisco Packet Tracer.
-              </p>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Section -->
+    <section id="work" class="py-20 px-6 relative">
+      <div class="container mx-auto">
+        <div class="section-title">
+          <h2 class="font-orbitron text-4xl font-bold neon-text-purple">
+            Work
+          </h2>
         </div>
       </div>
     </section>
@@ -1220,6 +1407,24 @@
       </div>
     </section>
 
+    <dialog id="project-modal" class="project-modal" aria-labelledby="project-modal-title">
+      <div class="project-modal-content">
+        <button
+          id="project-modal-close"
+          class="project-modal-close"
+          type="button"
+          aria-label="Close project details"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+        <div id="project-modal-media" class="project-modal-media"></div>
+        <h2 id="project-modal-title" class="font-orbitron text-2xl font-bold text-cyan-300 mb-4"></h2>
+        <p id="project-modal-description" class="text-gray-300 leading-relaxed"></p>
+        <div id="project-modal-meta" class="project-modal-meta" hidden></div>
+        <div id="project-modal-actions" class="project-modal-actions"></div>
+      </div>
+    </dialog>
+
     <!-- Skills Section -->
     <section id="skills" class="py-20 px-6 relative">
       <div class="container mx-auto">
@@ -1496,6 +1701,13 @@
               </li>
               <li>
                 <a
+                  href="#work"
+                  class="text-gray-400 hover:text-cyan-300 transition duration-300 footer-link clickable"
+                  >Work</a
+                >
+              </li>
+              <li>
+                <a
                   href="#projects"
                   class="text-gray-400 hover:text-cyan-300 transition duration-300 footer-link clickable"
                   >Projects</a
@@ -1713,12 +1925,193 @@
         });
       }
 
+      // Play the project demos in the hero background, one video at a time.
+      function initHeroVideoPlaylist() {
+        const playerMount = document.getElementById("hero-video-player");
+        const demoLinks = Array.from(
+          document.querySelectorAll('a[href*="youtu.be"], a[href*="youtube.com"]'),
+        ).filter((link) => link.textContent.includes("Watch Demo"));
+
+        const videoIds = demoLinks
+          .map((link) => {
+            try {
+              const url = new URL(link.href);
+              if (url.hostname === "youtu.be") {
+                return url.pathname.slice(1);
+              }
+              return url.searchParams.get("v");
+            } catch {
+              return null;
+            }
+          })
+          .filter(Boolean);
+
+        if (!playerMount || videoIds.length === 0) return;
+
+        let activeVideoIndex = 0;
+        let player;
+
+        const playNextVideo = () => {
+          activeVideoIndex = (activeVideoIndex + 1) % videoIds.length;
+          player.loadVideoById(videoIds[activeVideoIndex]);
+        };
+
+        const createPlayer = () => {
+          player = new YT.Player("hero-video-player", {
+            videoId: videoIds[activeVideoIndex],
+            playerVars: {
+              autoplay: 1,
+              controls: 0,
+              disablekb: 1,
+              fs: 0,
+              loop: 0,
+              modestbranding: 1,
+              mute: 1,
+              playsinline: 1,
+              rel: 0,
+            },
+            events: {
+              onReady: (event) => {
+                event.target.mute();
+                event.target.playVideo();
+              },
+              onStateChange: (event) => {
+                if (event.data === YT.PlayerState.ENDED) {
+                  playNextVideo();
+                }
+              },
+              onError: playNextVideo,
+            },
+          });
+        };
+
+        if (window.YT && window.YT.Player) {
+          createPlayer();
+          return;
+        }
+
+        const previousYouTubeReady = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          if (previousYouTubeReady) previousYouTubeReady();
+          createPlayer();
+        };
+
+        const apiScript = document.createElement("script");
+        apiScript.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(apiScript);
+      }
+
+      function initProjectModals() {
+        const modal = document.getElementById("project-modal");
+        const closeButton = document.getElementById("project-modal-close");
+        const modalMedia = document.getElementById("project-modal-media");
+        const modalTitle = document.getElementById("project-modal-title");
+        const modalDescription = document.getElementById(
+          "project-modal-description",
+        );
+        const modalMeta = document.getElementById("project-modal-meta");
+        const modalActions = document.getElementById("project-modal-actions");
+        const projectCards = document.querySelectorAll("#projects .project-card");
+
+        if (!modal || !closeButton || !modalMedia || !modalMeta || !modalActions || projectCards.length === 0) return;
+
+        const openProjectModal = (card) => {
+          const title = card.querySelector("h3");
+          const description = card.querySelector("h3 + p");
+          const image = card.querySelector(".project-card-image");
+          const demoLink = Array.from(card.querySelectorAll("a[href]")).find(
+            (link) => link.textContent.includes("Watch Demo"),
+          );
+
+          const showImageFallback = () => {
+            const fallbackImage = document.createElement("img");
+            fallbackImage.src = image ? image.src : "";
+            fallbackImage.alt = image ? image.alt : "";
+            modalMedia.replaceChildren(fallbackImage);
+          };
+
+          let videoId = null;
+          if (demoLink) {
+            try {
+              const videoUrl = new URL(demoLink.href);
+              videoId = videoUrl.hostname === "youtu.be"
+                ? videoUrl.pathname.slice(1)
+                : videoUrl.searchParams.get("v");
+            } catch {
+              videoId = null;
+            }
+          }
+
+          modalTitle.textContent = title ? title.textContent.trim() : "Project";
+          modalDescription.textContent = description
+            ? description.textContent.trim()
+            : "No project description is available.";
+          if (videoId) {
+            const video = document.createElement("iframe");
+            video.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=1&playsinline=1&rel=0`;
+            video.title = `${modalTitle.textContent} demo`;
+            video.allow = "autoplay; encrypted-media; picture-in-picture";
+            video.addEventListener("error", showImageFallback);
+            modalMedia.replaceChildren(video);
+          } else {
+            showImageFallback();
+          }
+          const projectMeta = Array.from(card.querySelectorAll("p")).filter(
+            (item) => /^(Role|Team Size):/.test(item.textContent.trim()),
+          );
+          modalMeta.replaceChildren(
+            ...projectMeta.map((item) => item.cloneNode(true)),
+          );
+          modalMeta.hidden = projectMeta.length === 0;
+          modalActions.replaceChildren(
+            ...Array.from(card.querySelectorAll("a[href]"), (link) => {
+              if (link.textContent.includes("Watch Demo")) return null;
+              const action = link.cloneNode(true);
+              action.classList.remove("clickable");
+              return action;
+            }).filter(Boolean),
+          );
+          modal.showModal();
+          closeButton.focus();
+        };
+
+        projectCards.forEach((card) => {
+          const title = card.querySelector("h3");
+          card.tabIndex = 0;
+          card.setAttribute("aria-haspopup", "dialog");
+          card.setAttribute(
+            "aria-label",
+            `View details for ${title ? title.textContent.trim() : "project"}`,
+          );
+
+          card.addEventListener("click", (event) => {
+            if (event.target.closest("a, button")) return;
+            openProjectModal(card);
+          });
+
+          card.addEventListener("keydown", (event) => {
+            if (event.target.closest("a, button")) return;
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              openProjectModal(card);
+            }
+          });
+        });
+
+        closeButton.addEventListener("click", () => modal.close());
+        modal.addEventListener("click", (event) => {
+          if (event.target === modal) modal.close();
+        });
+      }
+
       // Initialize everything when DOM is loaded
       document.addEventListener("DOMContentLoaded", () => {
         initParticles();
         initScrollAnimations();
         initMobileMenu();
         fixAllNavigationLinks();
+        initHeroVideoPlaylist();
+        initProjectModals();
 
         // Trigger initial fade-in for elements in view
         setTimeout(() => {
