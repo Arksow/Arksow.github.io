@@ -129,6 +129,13 @@
           0 0 15px rgba(188, 19, 254, 0.3);
       }
 
+      .hero-title {
+        font-size: clamp(0.8rem, 4vw, 3.75rem);
+        letter-spacing: clamp(0, 0.05vw, 0.04rem);
+        line-height: 1.15;
+        white-space: nowrap;
+      }
+
       .neon-border-cyan {
         box-shadow:
           0 0 5px var(--neon-cyan),
@@ -319,6 +326,7 @@
         left: 50%;
         margin-left: -3px;
         border-radius: 3px;
+        z-index: 0;
       }
 
       .timeline-item {
@@ -326,6 +334,7 @@
         position: relative;
         width: 50%;
         box-sizing: border-box;
+        z-index: 1;
       }
 
       .timeline-item:nth-child(odd) {
@@ -344,7 +353,7 @@
         background-color: var(--neon-cyan); /* FILLED with cyan */
         border-radius: 50%;
         top: 20px;
-        z-index: 1;
+        z-index: 2;
         box-shadow: 0 0 10px rgba(15, 240, 252, 0.5); /* Optional glow */
       }
 
@@ -582,7 +591,7 @@
       <div class="container mx-auto px-6 py-20 text-center">
         <div class="fade-in">
           <h1
-            class="font-orbitron text-5xl md:text-7xl font-bold mb-6 neon-text-cyan"
+            class="hero-title font-orbitron font-bold mb-6 neon-text-cyan"
           >
             GAME PROGRAMMER <span class="text-white">&</span> DEVELOPER
           </h1>
