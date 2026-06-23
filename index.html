@@ -1925,6 +1925,35 @@
         });
       }
 
+      let youTubeApiPromise;
+
+      function loadYouTubeApi() {
+        if (window.YT && window.YT.Player) {
+          return Promise.resolve(window.YT);
+        }
+
+        if (youTubeApiPromise) return youTubeApiPromise;
+
+        youTubeApiPromise = new Promise((resolve, reject) => {
+          const previousYouTubeReady = window.onYouTubeIframeAPIReady;
+          window.onYouTubeIframeAPIReady = () => {
+            if (previousYouTubeReady) previousYouTubeReady();
+            resolve(window.YT);
+          };
+
+          if (document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+            return;
+          }
+
+          const apiScript = document.createElement("script");
+          apiScript.src = "https://www.youtube.com/iframe_api";
+          apiScript.addEventListener("error", () => reject(new Error("YouTube API failed to load")));
+          document.head.appendChild(apiScript);
+        });
+
+        return youTubeApiPromise;
+      }
+
       // Play the project demos in the hero background, one video at a time.
       function initHeroVideoPlaylist() {
         const playerMount = document.getElementById("hero-video-player");
@@ -1956,7 +1985,7 @@
           player.loadVideoById(videoIds[activeVideoIndex]);
         };
 
-        const createPlayer = () => {
+        const createPlayer = (YT) => {
           player = new YT.Player("hero-video-player", {
             videoId: videoIds[activeVideoIndex],
             playerVars: {
@@ -1985,20 +2014,7 @@
           });
         };
 
-        if (window.YT && window.YT.Player) {
-          createPlayer();
-          return;
-        }
-
-        const previousYouTubeReady = window.onYouTubeIframeAPIReady;
-        window.onYouTubeIframeAPIReady = () => {
-          if (previousYouTubeReady) previousYouTubeReady();
-          createPlayer();
-        };
-
-        const apiScript = document.createElement("script");
-        apiScript.src = "https://www.youtube.com/iframe_api";
-        document.head.appendChild(apiScript);
+        loadYouTubeApi().then(createPlayer).catch(() => {});
       }
 
       function initProjectModals() {
@@ -2012,8 +2028,17 @@
         const modalMeta = document.getElementById("project-modal-meta");
         const modalActions = document.getElementById("project-modal-actions");
         const projectCards = document.querySelectorAll("#projects .project-card");
+        let popupPlayer;
+        let popupMediaRequest = 0;
 
         if (!modal || !closeButton || !modalMedia || !modalMeta || !modalActions || projectCards.length === 0) return;
+
+        const destroyPopupPlayer = () => {
+          if (popupPlayer) {
+            popupPlayer.destroy();
+            popupPlayer = null;
+          }
+        };
 
         const openProjectModal = (card) => {
           const title = card.querySelector("h3");
@@ -2022,8 +2047,11 @@
           const demoLink = Array.from(card.querySelectorAll("a[href]")).find(
             (link) => link.textContent.includes("Watch Demo"),
           );
+          const mediaRequest = ++popupMediaRequest;
+          destroyPopupPlayer();
 
           const showImageFallback = () => {
+            destroyPopupPlayer();
             const fallbackImage = document.createElement("img");
             fallbackImage.src = image ? image.src : "";
             fallbackImage.alt = image ? image.alt : "";
@@ -2047,12 +2075,45 @@
             ? description.textContent.trim()
             : "No project description is available.";
           if (videoId) {
-            const video = document.createElement("iframe");
-            video.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=1&playsinline=1&rel=0`;
-            video.title = `${modalTitle.textContent} demo`;
-            video.allow = "autoplay; encrypted-media; picture-in-picture";
-            video.addEventListener("error", showImageFallback);
-            modalMedia.replaceChildren(video);
+            const playerMount = document.createElement("div");
+            modalMedia.replaceChildren(playerMount);
+            loadYouTubeApi()
+              .then((YT) => {
+                if (mediaRequest !== popupMediaRequest || !modal.open) return;
+
+                popupPlayer = new YT.Player(playerMount, {
+                  videoId,
+                  playerVars: {
+                    autoplay: 1,
+                    controls: 1,
+                    loop: 1,
+                    modestbranding: 1,
+                    mute: 1,
+                    playsinline: 1,
+                    playlist: videoId,
+                    rel: 0,
+                  },
+                  events: {
+                    onReady: (event) => {
+                      event.target.mute();
+                      event.target.playVideo();
+                    },
+                    onStateChange: (event) => {
+                      if (event.data === YT.PlayerState.ENDED) {
+                        event.target.playVideo();
+                      }
+                    },
+                    onError: () => {
+                      if (mediaRequest === popupMediaRequest) {
+                        showImageFallback();
+                      }
+                    },
+                  },
+                });
+              })
+              .catch(() => {
+                if (mediaRequest === popupMediaRequest) showImageFallback();
+              });
           } else {
             showImageFallback();
           }
@@ -2101,6 +2162,11 @@
         closeButton.addEventListener("click", () => modal.close());
         modal.addEventListener("click", (event) => {
           if (event.target === modal) modal.close();
+        });
+        modal.addEventListener("close", () => {
+          popupMediaRequest += 1;
+          destroyPopupPlayer();
+          modalMedia.replaceChildren();
         });
       }
 
