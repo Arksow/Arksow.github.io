@@ -146,38 +146,153 @@
         display: none;
       }
 
-      .hero-video-background {
-        position: absolute;
+      /* Immersive 3D background scene (WebGL) */
+      .scene-3d {
+        position: fixed;
         inset: 0;
         z-index: 0;
         overflow: hidden;
-        background: #05070f;
+        background:
+          radial-gradient(
+            circle at 50% 35%,
+            rgba(15, 240, 252, 0.08),
+            transparent 55%
+          ),
+          #05070f;
+        pointer-events: none;
       }
 
-      .hero-video-background::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        background: linear-gradient(
-          90deg,
-          rgba(5, 7, 15, 0.9),
-          rgba(5, 7, 15, 0.55),
-          rgba(5, 7, 15, 0.9)
-        );
-      }
-
-      #hero-video-player,
-      #hero-video-player video {
+      .scene-3d canvas {
+        display: block;
         width: 100%;
         height: 100%;
       }
 
-      #hero-video-player video {
-        display: block;
-        object-fit: cover;
-        filter: saturate(0.85) contrast(1.08);
-        pointer-events: none;
+      .scene-3d::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse at center,
+            rgba(5, 7, 15, 0) 35%,
+            rgba(5, 7, 15, 0.75) 100%
+          );
+      }
+
+      /* Keep page content stacked above the WebGL scene */
+      section,
+      footer {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ---- 3D navigation (layout unchanged, depth only) ---- */
+      nav {
+        perspective: 900px;
+        transform-style: preserve-3d;
+      }
+
+      nav > .container {
+        transform-style: preserve-3d;
+        transform: translateZ(0) rotateX(var(--nav-tilt, 0deg));
+        transition: transform 0.35s ease;
+      }
+
+      nav .nav-link,
+      nav a.font-orbitron {
+        display: inline-block;
+        position: relative;
+        transform-style: preserve-3d;
+        transform: translateZ(0);
+        transition:
+          transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          text-shadow 0.35s ease,
+          color 0.3s ease;
+      }
+
+      nav .nav-link::before {
+        content: "";
+        position: absolute;
+        inset: -0.45rem -0.75rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(15, 240, 252, 0);
+        background: linear-gradient(
+          145deg,
+          rgba(15, 240, 252, 0.14),
+          rgba(188, 19, 254, 0.14)
+        );
+        opacity: 0;
+        transform: translateZ(-18px) scale(0.94);
+        transition:
+          opacity 0.35s ease,
+          transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          border-color 0.35s ease;
+      }
+
+      nav .nav-link:hover::before,
+      nav .nav-link:focus-visible::before {
+        opacity: 1;
+        border-color: rgba(15, 240, 252, 0.45);
+        transform: translateZ(-10px) scale(1);
+      }
+
+      nav .nav-link:hover,
+      nav .nav-link:focus-visible {
+        transform: translateZ(26px) rotateX(-8deg);
+        text-shadow:
+          0 0 8px rgba(15, 240, 252, 0.6),
+          0 6px 18px rgba(0, 0, 0, 0.75);
+      }
+
+      nav a.font-orbitron:hover {
+        transform: translateZ(34px) rotateY(-6deg);
+      }
+
+      nav #mobile-menu-button {
+        transform-style: preserve-3d;
+        transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      nav #mobile-menu-button:hover {
+        transform: translateZ(24px) rotateY(10deg);
+      }
+
+      #mobile-menu {
+        transform-style: preserve-3d;
+      }
+
+      /* Frosted glass panels so content stays readable over the 3D scene */
+      .bg-dark-gray {
+        background: linear-gradient(
+          145deg,
+          rgba(22, 24, 34, 0.82),
+          rgba(10, 12, 20, 0.88)
+        );
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      /* ---- 3D content depth ---- */
+      .tilt-3d {
+        transform-style: preserve-3d;
+        will-change: transform;
+      }
+
+      .depth-layer {
+        transform: translate3d(0, 0, 0);
+        transition: transform 0.2s ease-out;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        nav > .container,
+        nav .nav-link,
+        nav a.font-orbitron,
+        .depth-layer,
+        .tilt-3d {
+          transform: none !important;
+          transition: none !important;
+        }
       }
 
       .neon-border-cyan {
@@ -661,6 +776,7 @@
   </head>
   <body class="relative home-page">
     <!-- Background Elements -->
+    <div id="scene-3d" class="scene-3d" aria-hidden="true"></div>
     <div
       id="particles-container"
       class="fixed top-0 left-0 w-full h-full z-0"
@@ -736,11 +852,10 @@
       id="home"
       class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
     >
-      <div id="hero-video-background" class="hero-video-background" aria-hidden="true">
-        <div id="hero-video-player"></div>
-      </div>
-
-      <div class="container mx-auto px-6 py-20 text-center relative z-10">
+      <div
+        class="container mx-auto px-6 py-20 text-center relative z-10 depth-layer"
+        data-depth="1.4"
+      >
         <div class="fade-in">
           <h1
             class="hero-title font-orbitron font-bold mb-6 neon-text-cyan"
@@ -752,13 +867,7 @@
               href="projects.html"
               class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold rounded-lg glow-effect hover:scale-105 transition duration-300 font-oxanium text-lg clickable"
             >
-              <i class="fas fa-gamepad mr-2"></i> View Projects
-            </a>
-            <a
-              href="projects.html"
-              class="px-8 py-4 border-2 border-cyan-500 text-cyan-300 font-bold rounded-lg glow-effect hover:bg-cyan-500/10 hover:scale-105 transition duration-300 font-oxanium text-lg clickable"
-            >
-              <i class="fas fa-play-circle mr-2"></i> Watch Gameplay
+              <i class="fas fa-gamepad mr-2"></i> VIEW PROJECTS
             </a>
           </div>
         </div>
@@ -1885,38 +1994,39 @@
         return youTubeApiPromise;
       }
 
-      // Play the supplied local project videos in the hero background, one at a time.
-      function initHeroVideoPlaylist() {
-        const playerMount = document.getElementById("hero-video-player");
-        const heroVideos = [
-          "Videos/TrashCollectionCompany.mp4",
-          "Videos/PandaUnexpress.mp4",
-          "Videos/Singacure.mp4",
-        ];
+      // Pointer/scroll parallax for foreground layers, giving the flat content
+      // a sense of depth against the WebGL scene behind it.
+      function initDepthParallax() {
+        const layers = document.querySelectorAll(".depth-layer");
+        const nav = document.querySelector("nav > .container");
+        const reduceMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
 
-        if (!playerMount) return;
+        if (reduceMotion || (layers.length === 0 && !nav)) return;
 
-        const video = document.createElement("video");
-        let activeVideoIndex = 0;
+        let pointerX = 0;
+        let pointerY = 0;
 
-        const playVideo = () => {
-          video.src = heroVideos[activeVideoIndex];
-          video.load();
-          video.play().catch(() => {});
-        };
+        window.addEventListener(
+          "pointermove",
+          (event) => {
+            pointerX = event.clientX / window.innerWidth - 0.5;
+            pointerY = event.clientY / window.innerHeight - 0.5;
 
-        const playNextVideo = () => {
-          activeVideoIndex = (activeVideoIndex + 1) % heroVideos.length;
-          playVideo();
-        };
+            layers.forEach((layer) => {
+              const depth = parseFloat(layer.dataset.depth || "1");
+              layer.style.transform = `translate3d(${-pointerX * 18 * depth}px, ${
+                -pointerY * 12 * depth
+              }px, 0) rotateX(${pointerY * 3}deg) rotateY(${-pointerX * 3}deg)`;
+            });
 
-        video.autoplay = true;
-        video.muted = true;
-        video.playsInline = true;
-        video.addEventListener("ended", playNextVideo);
-        video.addEventListener("error", playNextVideo);
-        playerMount.replaceChildren(video);
-        playVideo();
+            if (nav) {
+              nav.style.setProperty("--nav-tilt", `${-pointerY * 2.5}deg`);
+            }
+          },
+          { passive: true },
+        );
       }
 
       function initProjectModals() {
@@ -2097,9 +2207,7 @@
         initScrollAnimations();
         initMobileMenu();
         fixAllNavigationLinks();
-        if (document.body.classList.contains("home-page")) {
-          initHeroVideoPlaylist();
-        }
+        initDepthParallax();
         if (document.body.classList.contains("projects-page")) {
           initProjectModals();
         }
@@ -2114,6 +2222,220 @@
           });
         }, 500);
       });
+    </script>
+
+    <!-- Immersive 3D background: neon starfield, synthwave grid and floating
+         wireframe solids. Fails silently to the CSS gradient if WebGL or the
+         CDN module is unavailable. -->
+    <script type="module">
+      import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+
+      const mount = document.getElementById("scene-3d");
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (mount) {
+        try {
+          const scene = new THREE.Scene();
+          scene.fog = new THREE.FogExp2(0x05070f, 0.028);
+
+          const camera = new THREE.PerspectiveCamera(
+            62,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            200,
+          );
+          camera.position.set(0, 1.2, 12);
+
+          const renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance",
+          });
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.setClearColor(0x000000, 0);
+          mount.appendChild(renderer.domElement);
+
+          const NEON_CYAN = new THREE.Color(0x0ff0fc);
+          const NEON_PURPLE = new THREE.Color(0xbc13fe);
+
+          // --- Starfield -------------------------------------------------
+          const STAR_COUNT = 2200;
+          const starPositions = new Float32Array(STAR_COUNT * 3);
+          const starColors = new Float32Array(STAR_COUNT * 3);
+          const mix = new THREE.Color();
+
+          for (let i = 0; i < STAR_COUNT; i += 1) {
+            starPositions[i * 3] = (Math.random() - 0.5) * 90;
+            starPositions[i * 3 + 1] = (Math.random() - 0.5) * 50;
+            starPositions[i * 3 + 2] = -Math.random() * 120;
+
+            mix.copy(NEON_CYAN).lerp(NEON_PURPLE, Math.random());
+            starColors[i * 3] = mix.r;
+            starColors[i * 3 + 1] = mix.g;
+            starColors[i * 3 + 2] = mix.b;
+          }
+
+          const starGeometry = new THREE.BufferGeometry();
+          starGeometry.setAttribute(
+            "position",
+            new THREE.BufferAttribute(starPositions, 3),
+          );
+          starGeometry.setAttribute(
+            "color",
+            new THREE.BufferAttribute(starColors, 3),
+          );
+          const stars = new THREE.Points(
+            starGeometry,
+            new THREE.PointsMaterial({
+              size: 0.16,
+              vertexColors: true,
+              transparent: true,
+              opacity: 0.85,
+              depthWrite: false,
+              blending: THREE.AdditiveBlending,
+            }),
+          );
+          scene.add(stars);
+
+          // --- Synthwave grids (floor + ceiling) -------------------------
+          const grids = [];
+          [-6, 9].forEach((y, index) => {
+            const grid = new THREE.GridHelper(
+              160,
+              80,
+              index === 0 ? 0x0ff0fc : 0xbc13fe,
+              index === 0 ? 0x0ff0fc : 0xbc13fe,
+            );
+            grid.material.transparent = true;
+            grid.material.opacity = index === 0 ? 0.22 : 0.12;
+            grid.material.depthWrite = false;
+            grid.position.set(0, y, -40);
+            scene.add(grid);
+            grids.push(grid);
+          });
+
+          // --- Floating wireframe solids ---------------------------------
+          const solids = [];
+          const shapes = [
+            new THREE.IcosahedronGeometry(2.1, 0),
+            new THREE.TorusGeometry(1.8, 0.5, 10, 26),
+            new THREE.OctahedronGeometry(1.7, 0),
+            new THREE.TorusKnotGeometry(1.3, 0.35, 64, 8),
+          ];
+
+          shapes.forEach((geometry, index) => {
+            const mesh = new THREE.Mesh(
+              geometry,
+              new THREE.MeshBasicMaterial({
+                color: index % 2 === 0 ? 0x0ff0fc : 0xbc13fe,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.35,
+              }),
+            );
+            mesh.position.set(
+              index % 2 === 0 ? -9 - index : 9 + index,
+              (index - 1.5) * 2.6,
+              -12 - index * 7,
+            );
+            mesh.userData.spin = 0.001 + index * 0.0007;
+            scene.add(mesh);
+            solids.push(mesh);
+          });
+
+          // --- Interaction ------------------------------------------------
+          const pointer = { x: 0, y: 0 };
+          const target = { x: 0, y: 0 };
+          let scrollDepth = 0;
+
+          window.addEventListener(
+            "pointermove",
+            (event) => {
+              target.x = event.clientX / window.innerWidth - 0.5;
+              target.y = event.clientY / window.innerHeight - 0.5;
+            },
+            { passive: true },
+          );
+
+          window.addEventListener(
+            "scroll",
+            () => {
+              const max = Math.max(
+                document.body.scrollHeight - window.innerHeight,
+                1,
+              );
+              scrollDepth = Math.min(window.scrollY / max, 1);
+            },
+            { passive: true },
+          );
+
+          const handleResize = () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+          };
+          window.addEventListener("resize", handleResize);
+
+          const render = () => renderer.render(scene, camera);
+
+          let frameId = null;
+          const animate = () => {
+            frameId = requestAnimationFrame(animate);
+
+            pointer.x += (target.x - pointer.x) * 0.05;
+            pointer.y += (target.y - pointer.y) * 0.05;
+
+            const positions = starGeometry.attributes.position.array;
+            for (let i = 2; i < positions.length; i += 3) {
+              positions[i] += 0.06;
+              if (positions[i] > 14) positions[i] = -120;
+            }
+            starGeometry.attributes.position.needsUpdate = true;
+
+            // Grid lines sit 2 units apart, so wrapping every 2 units keeps
+            // the forward motion seamless.
+            grids.forEach((grid) => {
+              grid.position.z += 0.08;
+              if (grid.position.z > -38) grid.position.z = -40;
+            });
+
+            solids.forEach((mesh) => {
+              mesh.rotation.x += mesh.userData.spin;
+              mesh.rotation.y += mesh.userData.spin * 1.4;
+            });
+
+            camera.position.x += (pointer.x * 4 - camera.position.x) * 0.05;
+            camera.position.y +=
+              (1.2 - pointer.y * 2.4 - scrollDepth * 4 - camera.position.y) *
+              0.05;
+            camera.position.z = 12 - scrollDepth * 6;
+            camera.lookAt(0, 1 - scrollDepth * 2, -20);
+
+            render();
+          };
+
+          if (reduceMotion) {
+            render();
+          } else {
+            animate();
+
+            document.addEventListener("visibilitychange", () => {
+              if (document.hidden) {
+                if (frameId !== null) cancelAnimationFrame(frameId);
+                frameId = null;
+              } else if (frameId === null) {
+                animate();
+              }
+            });
+          }
+        } catch (error) {
+          // Leave the CSS gradient background in place.
+          console.warn("3D background unavailable:", error);
+        }
+      }
     </script>
   </body>
 </html>
