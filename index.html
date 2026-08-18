@@ -180,6 +180,40 @@
           );
       }
 
+      .hero-video-background {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        background: #05070f;
+      }
+
+      .hero-video-background::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(
+          90deg,
+          rgba(5, 7, 15, 0.9),
+          rgba(5, 7, 15, 0.55),
+          rgba(5, 7, 15, 0.9)
+        );
+      }
+
+      #hero-video-player,
+      #hero-video-player video {
+        width: 100%;
+        height: 100%;
+      }
+
+      #hero-video-player video {
+        display: block;
+        object-fit: cover;
+        filter: saturate(0.85) contrast(1.08);
+        pointer-events: none;
+      }
+
       /* Keep page content stacked above the WebGL scene */
       section,
       footer {
@@ -852,6 +886,10 @@
       id="home"
       class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
     >
+      <div id="hero-video-background" class="hero-video-background" aria-hidden="true">
+        <div id="hero-video-player"></div>
+      </div>
+
       <div
         class="container mx-auto px-6 py-20 text-center relative z-10 depth-layer"
         data-depth="1.4"
@@ -1187,7 +1225,7 @@
                 <i class="fas fa-play-circle mr-2"></i> Watch Demo
               </a>
               <a
-                href="https://arksow.itch.io/trash-collection-company"
+                href="https://ascow-nas.tail102f5.ts.net/trash/"
                 target="_blank"
                 class="flex-1 py-2 bg-purple-700 hover:bg-purple-600 text-white rounded-lg transition duration-300 text-center clickable"
                rel="noopener noreferrer">
@@ -2303,9 +2341,44 @@
         });
       }
 
+      // Play the local project videos in the home wallpaper, one at a time.
+      function initHeroVideoPlaylist() {
+        const playerMount = document.getElementById("hero-video-player");
+        const heroVideos = [
+          "Videos/TrashCollectionCompany.mp4",
+          "Videos/PandaUnexpress.mp4",
+          "Videos/Singacure.mp4",
+        ];
+
+        if (!playerMount) return;
+
+        const video = document.createElement("video");
+        let activeVideoIndex = 0;
+
+        const playVideo = () => {
+          video.src = heroVideos[activeVideoIndex];
+          video.load();
+          video.play().catch(() => {});
+        };
+
+        const playNextVideo = () => {
+          activeVideoIndex = (activeVideoIndex + 1) % heroVideos.length;
+          playVideo();
+        };
+
+        video.autoplay = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.addEventListener("ended", playNextVideo);
+        video.addEventListener("error", playNextVideo);
+        playerMount.replaceChildren(video);
+        playVideo();
+      }
+
       // Initialize everything when DOM is loaded
       document.addEventListener("DOMContentLoaded", () => {
         initParticles();
+        initHeroVideoPlaylist();
         initScrollAnimations();
         initMobileMenu();
         fixAllNavigationLinks();
