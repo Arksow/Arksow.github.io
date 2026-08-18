@@ -144,40 +144,6 @@
         display: none;
       }
 
-      .hero-video-background {
-        position: absolute;
-        inset: 0;
-        z-index: 0;
-        overflow: hidden;
-        background: #05070f;
-      }
-
-      .hero-video-background::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        background: linear-gradient(
-          90deg,
-          rgba(5, 7, 15, 0.9),
-          rgba(5, 7, 15, 0.55),
-          rgba(5, 7, 15, 0.9)
-        );
-      }
-
-      #hero-video-player,
-      #hero-video-player video {
-        width: 100%;
-        height: 100%;
-      }
-
-      #hero-video-player video {
-        display: block;
-        object-fit: cover;
-        filter: saturate(0.85) contrast(1.08);
-        pointer-events: none;
-      }
-
       .neon-border-cyan {
         box-shadow:
           0 0 5px var(--neon-cyan),
@@ -749,10 +715,6 @@
       id="home"
       class="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
     >
-      <div id="hero-video-background" class="hero-video-background" aria-hidden="true">
-        <div id="hero-video-player"></div>
-      </div>
-
       <div class="container mx-auto px-6 py-20 text-center relative z-10">
         <div class="fade-in">
           <h1
@@ -1999,40 +1961,6 @@
         return youTubeApiPromise;
       }
 
-      // Play the supplied local project videos in the hero background, one at a time.
-      function initHeroVideoPlaylist() {
-        const playerMount = document.getElementById("hero-video-player");
-        const heroVideos = [
-          "Videos/TrashCollectionCompany.mp4",
-          "Videos/PandaUnexpress.mp4",
-          "Videos/Singacure.mp4",
-        ];
-
-        if (!playerMount) return;
-
-        const video = document.createElement("video");
-        let activeVideoIndex = 0;
-
-        const playVideo = () => {
-          video.src = heroVideos[activeVideoIndex];
-          video.load();
-          video.play().catch(() => {});
-        };
-
-        const playNextVideo = () => {
-          activeVideoIndex = (activeVideoIndex + 1) % heroVideos.length;
-          playVideo();
-        };
-
-        video.autoplay = true;
-        video.muted = true;
-        video.playsInline = true;
-        video.addEventListener("ended", playNextVideo);
-        video.addEventListener("error", playNextVideo);
-        playerMount.replaceChildren(video);
-        playVideo();
-      }
-
       function initProjectModals() {
         const modal = document.getElementById("project-modal");
         const closeButton = document.getElementById("project-modal-close");
@@ -2211,9 +2139,6 @@
         initScrollAnimations();
         initMobileMenu();
         fixAllNavigationLinks();
-        if (document.body.classList.contains("home-page")) {
-          initHeroVideoPlaylist();
-        }
         if (document.body.classList.contains("projects-page")) {
           initProjectModals();
         }
