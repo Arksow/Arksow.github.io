@@ -647,16 +647,49 @@
 
       .work-modal-gallery {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 1rem;
         margin-top: 1.5rem;
       }
 
-      .work-modal-gallery img {
+      .work-modal-media-title {
+        margin-top: 1.75rem;
+        color: var(--neon-purple);
+        font-family: "Orbitron", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .work-media-card {
+        overflow: hidden;
+        margin: 0;
+        background: rgba(0, 0, 0, 0.28);
+        border: 1px solid rgba(188, 19, 254, 0.3);
+        border-radius: 12px;
+        transition: transform 0.25s ease, border-color 0.25s ease;
+      }
+
+      .work-media-card:hover {
+        border-color: rgba(15, 240, 252, 0.65);
+        transform: translateY(-3px);
+      }
+
+      .work-media-card img,
+      .work-media-card video {
+        display: block;
         width: 100%;
         height: 260px;
-        object-fit: cover;
-        border-radius: 8px;
+        background: #05070f;
+        object-fit: contain;
+      }
+
+      .work-media-card figcaption {
+        padding: 0.85rem 1rem;
+        color: #d1d5db;
+        font-size: 0.9rem;
+        line-height: 1.45;
+        text-align: center;
       }
 
       @media (max-width: 640px) {
@@ -1147,13 +1180,62 @@
             <ul>
               <li>Created AI chatbots (Eco-Booth, Ask Addy, Adrenalin Website).</li>
               <li>Worked on chatbot data ingestion and response testing.</li>
-              <li>Built QR code and kiosk chatbot experiences.</li>
             </ul>
           </div>
         </div>
+        <h3 class="work-modal-media-title">Videos</h3>
         <div class="work-modal-gallery">
-          <img src="Images/DisplayBooth.jpeg" alt="Adrenalin Group event booth display" />
-          <img src="Images/AskEddyChatbot.jpeg" alt="Ask Addy chatbot display" />
+          <figure class="work-media-card">
+            <video src="Videos/WorkAskAddyKiosk.mp4" controls muted loop playsinline preload="metadata"></video>
+            <figcaption>Ask Addy chatbot kiosk demo.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <video src="Videos/WorkAskAddyChatbot.mp4" controls muted loop playsinline preload="metadata"></video>
+            <figcaption>Ask Addy chatbot response flow.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <video src="Videos/WorkEcoBoothAgent.mp4" controls muted loop playsinline preload="metadata"></video>
+            <figcaption>Eco-Booth AI agent demo.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <video src="Videos/WorkAdrenalinWebsiteChatbot.mp4" controls muted loop playsinline preload="metadata"></video>
+            <figcaption>Adrenalin Website chatbot demo.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <video src="Videos/WorkDrawingBooth.mp4" controls muted loop playsinline preload="metadata"></video>
+            <figcaption>Drawing Booth interaction demo.</figcaption>
+          </figure>
+        </div>
+        <h3 class="work-modal-media-title">Photos</h3>
+        <div class="work-modal-gallery">
+          <figure class="work-media-card">
+            <img src="Images/WorkRacingArena.png" alt="Racing Arena game screenshot" />
+            <figcaption>Racing Arena game screenshot.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <img src="Images/WorkRecycleWithAdrenalin.png" alt="Recycle With Adrenalin game screenshot" />
+            <figcaption>Recycle With Adrenalin game screenshot.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <img src="Images/WorkDrawingBoothInterface.png" alt="Drawing Booth interface screenshot" />
+            <figcaption>Drawing Booth interface.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <img src="Images/WorkAskAddyKiosk.jpeg" alt="Ask Addy chatbot kiosk display" />
+            <figcaption>Ask Addy chatbot kiosk display.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <img src="Images/WorkEcoBoothAgent.jpeg" alt="Eco-Booth AI agent screenshot" />
+            <figcaption>Eco-Booth AI agent screenshot.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <img src="Images/WorkAdrenalinWebsiteChatbot.jpeg" alt="Adrenalin Website chatbot screenshot" />
+            <figcaption>Adrenalin Website chatbot screenshot.</figcaption>
+          </figure>
+          <figure class="work-media-card">
+            <img src="Images/WorkDisplayBooth.jpeg" alt="Adrenalin Group display booth setup" />
+            <figcaption>Adrenalin Group display booth setup.</figcaption>
+          </figure>
         </div>
       </div>
     </dialog>
@@ -1225,19 +1307,19 @@
             </div>
           </div>
 
-          <!-- Project: Mecha Chameleon -->
+          <!-- Project: Chameleon -->
           <div class="project-card fade-in rounded-xl p-6">
             <div class="mb-4">
               <div class="project-card-image-container">
                 <img
-                  src="Images/MechaChameleon.png"
-                  alt="Mecha Chameleon"
+                  src="Images/Chameleon.png"
+                  alt="Chameleon"
                   class="project-card-image"
                 />
               </div>
             </div>
             <h3 class="font-orbitron text-2xl font-bold mb-3 text-white">
-              Mecha Chameleon (2026)
+              Chameleon (2026)
             </h3>
             <p class="text-gray-400 mb-4">
               A hide-and-seek game concept built around camouflage, movement,
@@ -1946,7 +2028,7 @@
               Alvin
             </h3>
             <p class="text-gray-400 mb-6">
-              Game Programmer & Developer creating immersive interactive
+              Games & Web Developer creating immersive interactive
               experiences through code and creativity.
             </p>
             <div class="flex space-x-4">
@@ -2031,7 +2113,7 @@
         <div
           class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500"
         >
-          <p>© 2026 Alvin - Game Programmer. All rights reserved.</p>
+          <p>© 2026 Alvin - Games & Web Developer. All rights reserved.</p>
         </div>
       </div>
     </footer>
