@@ -363,8 +363,8 @@
         <header class="assistant-header">
           <div class="assistant-avatar" aria-hidden="true"><i class="fas fa-robot"></i></div>
           <div class="assistant-heading">
-            <h2>Ask Alvin’s Portfolio</h2>
-            <span class="assistant-status" aria-live="polite">Learning from the website…</span>
+            <h2>Alvin's PA</h2>
+            <span class="assistant-status" aria-live="polite">Connecting…</span>
           </div>
           <button class="assistant-icon-button assistant-reset" type="button" aria-label="Start a new chat" title="New chat"><i class="fas fa-rotate-right" aria-hidden="true"></i></button>
           <button class="assistant-icon-button assistant-close" type="button" aria-label="Close assistant"><i class="fas fa-xmark" aria-hidden="true"></i></button>
@@ -474,13 +474,11 @@
 
     welcome();
     buildKnowledge()
-      .then((knowledge) => {
-        status.textContent = knowledge.length
-          ? `${state.indexedPages === PAGE_SOURCES.length ? "Online" : "Ready"} · ${knowledge.length} website topics indexed`
-          : "Online · Current page indexed";
+      .then(() => {
+        status.textContent = "Online";
       })
       .catch(() => {
-        status.textContent = "Online · Current page indexed";
+        status.textContent = "Online";
       });
   }
 
