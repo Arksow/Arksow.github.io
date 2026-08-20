@@ -31,7 +31,7 @@
   border-radius: 50%;
   box-shadow: 0 0 26px rgba(15, 240, 252, 0.42), 0 12px 40px rgba(0, 0, 0, 0.45);
   cursor: pointer;
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, opacity 140ms ease;
 }
 
 .assistant-launcher::before {
@@ -80,7 +80,7 @@
 .assistant-panel {
   position: absolute;
   right: 0;
-  bottom: 78px;
+  bottom: 0;
   display: grid;
   grid-template-rows: auto 1fr auto auto;
   width: min(390px, calc(100vw - 32px));
@@ -112,6 +112,12 @@
 
 .portfolio-assistant.is-open .assistant-unread {
   display: none;
+}
+
+.portfolio-assistant.is-open .assistant-launcher {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .assistant-header {
@@ -455,9 +461,6 @@
     border-radius: 20px;
   }
 
-  .portfolio-assistant.is-open .assistant-launcher {
-    visibility: hidden;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
