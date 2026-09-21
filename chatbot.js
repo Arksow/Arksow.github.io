@@ -354,14 +354,23 @@
   function createInterface() {
     const root = document.createElement("aside");
     root.className = "portfolio-assistant";
+    const assistantMark = `
+      <svg class="assistant-brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <path class="assistant-brand-mark-shell" d="M9.25 7.25h13.5a5.5 5.5 0 0 1 5.5 5.5v6a5.5 5.5 0 0 1-5.5 5.5h-6.4l-5.1 4v-4h-2a5.5 5.5 0 0 1-5.5-5.5v-6a5.5 5.5 0 0 1 5.5-5.5Z" />
+        <path class="assistant-brand-mark-antenna" d="M16 7.25V4.4" />
+        <circle class="assistant-brand-mark-signal" cx="16" cy="3.1" r="1.65" />
+        <circle class="assistant-brand-mark-eye" cx="11.5" cy="15.4" r="1.55" />
+        <circle class="assistant-brand-mark-eye" cx="20.5" cy="15.4" r="1.55" />
+        <path class="assistant-brand-mark-smile" d="M11.8 19.15c1.2 1.25 2.6 1.85 4.2 1.85s3-.6 4.2-1.85" />
+      </svg>`;
     root.innerHTML = `
       <button class="assistant-launcher" type="button" aria-label="Open portfolio assistant" aria-expanded="false" aria-controls="portfolio-assistant-panel">
-        <i class="fas fa-comment-dots assistant-launcher-icon" aria-hidden="true"></i>
+        ${assistantMark}
         <span class="assistant-unread" aria-hidden="true"></span>
       </button>
       <div id="portfolio-assistant-panel" class="assistant-panel" role="dialog" aria-label="Portfolio assistant" aria-modal="false" aria-hidden="true">
         <header class="assistant-header">
-          <div class="assistant-avatar" aria-hidden="true"><i class="fas fa-robot"></i></div>
+          <div class="assistant-avatar" aria-hidden="true">${assistantMark}</div>
           <div class="assistant-heading">
             <h2>Alvin's PA</h2>
             <span class="assistant-status" aria-live="polite">Connecting…</span>
