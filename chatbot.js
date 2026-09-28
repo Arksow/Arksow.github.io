@@ -428,7 +428,7 @@
 
     function welcome() {
       messages.innerHTML = "";
-      addMessage("Hi! I’m Alvin’s portfolio assistant.", "assistant", false);
+      addMessage("Hi! I’m Alvin’s portfolio assistant, you can ask me questions about Alvin or his projects.", "assistant", false);
     }
 
     function setOpen(open) {
